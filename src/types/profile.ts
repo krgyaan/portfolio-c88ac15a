@@ -7,6 +7,7 @@ export interface SocialLink {
 
 export interface Profile {
   name: string;
+  age: number;
   subtitle: string;
   avatarUrl: string;
   isVerified: boolean;

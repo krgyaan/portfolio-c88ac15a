@@ -1,18 +1,19 @@
 import { Profile } from '@/types';
 
 const mockProfile: Profile = {
-  name: "John Doe",
+  name: "Vedant Lavale",
+  age: 20,
   subtitle: "Engineer · Developer · Builder",
   avatarUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
   isVerified: true,
-  about: "I'm a creative developer based in New York, crafting digital experiences that balance form and function. With a focus on minimal aesthetics and thoughtful interactions, I build products that are both beautiful and useful. Currently focused on building tools that help people work smarter.",
-  email: "hello@johndoe.dev",
-  calendarUrl: "https://cal.com/johndoe",
+  about: "I like starting from a blank slate and turning it into a finished product. From frontend and backend to deployment, I focus on building software that's practical, usable, and reliable.",
+  email: "vedantlavale@gmail.com",
+  calendarUrl: "https://cal.com/vedantlavale",
   socialLinks: [
-    { id: "1", platform: "GitHub", url: "https://github.com", icon: "Github" },
-    { id: "2", platform: "Twitter", url: "https://twitter.com", icon: "Twitter" },
-    { id: "3", platform: "LinkedIn", url: "https://linkedin.com", icon: "Linkedin" },
-    { id: "4", platform: "Instagram", url: "https://instagram.com", icon: "Instagram" },
+    { id: "1", platform: "Gmail", url: "mailto:vedantlavale@gmail.com", icon: "Mail" },
+    { id: "2", platform: "GitHub", url: "https://github.com/vedantlavale", icon: "Github" },
+    { id: "3", platform: "LinkedIn", url: "https://linkedin.com/in/vedantlavale", icon: "Linkedin" },
+    { id: "4", platform: "Medium", url: "https://medium.com/@vedantlavale", icon: "BookOpen" },
   ],
 };
 
