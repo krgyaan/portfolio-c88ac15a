@@ -23,7 +23,7 @@ export function Footer() {
         <div className="flex flex-col gap-4 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
           <div>
             <span>Designed & Developed by </span>
-            <span className="text-foreground font-medium">Vedant</span>
+            <span className="text-foreground font-medium">Gyan</span>
             <p className="mt-1 text-muted-foreground/70">©2026. All rights reserved.</p>
           </div>
           <div className="flex flex-col items-start md:items-end gap-1">
