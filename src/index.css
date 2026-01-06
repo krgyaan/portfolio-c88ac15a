@@ -43,6 +43,31 @@
     --noise-opacity: 0.03;
   }
 
+  .light {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 45 100% 50%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 85%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 10%;
+    --divider: 0 0% 88%;
+    --glow-color: 0 0% 10%;
+    --noise-opacity: 0.02;
+  }
+
   .dark {
     --background: 0 0% 4%;
     --foreground: 40 10% 90%;
@@ -63,6 +88,9 @@
     --border: 0 0% 18%;
     --input: 0 0% 14%;
     --ring: 40 10% 90%;
+    --divider: 0 0% 20%;
+    --glow-color: 40 10% 90%;
+    --noise-opacity: 0.03;
   }
 }
 
@@ -78,6 +106,12 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Space Grotesk', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Smooth theme transitions for all elements */
+  *, *::before, *::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
 
   /* Noise texture overlay */
