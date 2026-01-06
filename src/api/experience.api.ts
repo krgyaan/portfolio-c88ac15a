@@ -3,23 +3,29 @@ import { Experience } from '@/types';
 const mockExperiences: Experience[] = [
   {
     id: "1",
-    company: "Gauge.ro",
-    role: "Full Stack Developer",
-    period: "Nov 2024 — Present",
-    logoUrl: "https://gauge.ro/favicon.ico",
+    company: "Volks Energie Pvt. Ltd.",
+    role: "Software Developer",
+    period: "Jul 2025 — Present",
+    logoUrl: "",
     highlights: [
-      "Sole Full Stack Developer in a 3-member core engineering team.",
-      "Working on production backend systems with 200+ REST APIs and highly scalable time-series databases.",
-      "Developing Node.js services for IoT data ingestion and business logic.",
+      "Core developer in a 2-person full-stack team, owning end-to-end delivery of multiple modules in a Tender Management System migrated from Laravel/MySQL to React, NestJS, and PostgreSQL.",
+      "Built and maintained 25+ backend modules across Tender and Accounts domains, including schema design, REST APIs, validation, and role-based access control.",
+      "Implemented JWT-based authentication and Google OAuth, introducing proper backend-enforced RBAC to replace UI-only restrictions in the legacy system.",
+      "Set up CI/CD pipelines, Nginx, and production deployments on a Hostinger VPS.",
     ],
   },
   {
     id: "2",
-    company: "Socialease",
-    role: "Full Stack Developer",
-    period: "Jun 2024 — Aug 2024",
+    company: "Ananta Business Services",
+    role: "Software Developer",
+    period: "Nov 2023 — Jun 2025",
     logoUrl: "",
-    highlights: [],
+    highlights: [
+      "Led a 4-member development team, handling task allocation, PR reviews, sprint planning, and direct client communication.",
+      "Built a hardware-integrated Attendance Management System, integrating fingerprint biometric devices via APIs.",
+      "Designed and delivered large-scale Inventory and Office Management Systems using Laravel and MySQL, managing schemas across ~110 tables.",
+      "Owned projects end-to-end, from requirement gathering and system design to deployment and post-release support.",
+    ],
   },
 ];
 
