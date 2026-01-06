@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -10,12 +11,17 @@ const navLinks = [
 
 export function Navbar() {
   const location = useLocation();
+  const { theme, setTheme } = useTheme();
 
   const isActive = (path: string) => {
     if (path === "/") {
       return location.pathname === "/";
     }
     return location.pathname.startsWith(path);
+  };
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   return (
@@ -43,10 +49,12 @@ export function Navbar() {
         </ul>
 
         <button
+          onClick={toggleTheme}
           className="flex h-8 w-8 items-center justify-center rounded-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
           aria-label="Toggle theme"
         >
-          <Moon className="h-4 w-4" />
+          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" />
         </button>
       </nav>
     </header>
