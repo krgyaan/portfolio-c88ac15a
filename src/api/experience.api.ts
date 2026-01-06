@@ -3,24 +3,23 @@ import { Experience } from '@/types';
 const mockExperiences: Experience[] = [
   {
     id: "1",
-    company: "TechCorp",
-    role: "Senior Engineer",
-    period: "2023 — Present",
-    description: "Leading frontend architecture and design systems",
+    company: "Gauge.ro",
+    role: "Full Stack Developer",
+    period: "Nov 2024 — Present",
+    logoUrl: "https://gauge.ro/favicon.ico",
+    highlights: [
+      "Sole Full Stack Developer in a 3-member core engineering team.",
+      "Working on production backend systems with 200+ REST APIs and highly scalable time-series databases.",
+      "Developing Node.js services for IoT data ingestion and business logic.",
+    ],
   },
   {
     id: "2",
-    company: "StartupXYZ",
+    company: "Socialease",
     role: "Full Stack Developer",
-    period: "2021 — 2023",
-    description: "Built scalable web applications from scratch",
-  },
-  {
-    id: "3",
-    company: "DigitalAgency",
-    role: "Frontend Developer",
-    period: "2019 — 2021",
-    description: "Crafted interactive experiences for clients",
+    period: "Jun 2024 — Aug 2024",
+    logoUrl: "",
+    highlights: [],
   },
 ];
 

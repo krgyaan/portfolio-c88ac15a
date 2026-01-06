@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Section } from "@/components/ui/Section";
-import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getProjects } from "@/api";
 import { Project } from "@/types";
@@ -40,12 +40,11 @@ const Projects = () => {
       <div className="mb-12 space-y-4 animate-fade-in">
         <h1 className="text-3xl font-semibold md:text-4xl">Projects</h1>
         <p className="text-muted-foreground">
-          A collection of work spanning design systems, web applications, and
-          creative experiments.
+          A collection of projects I've worked on.
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         {projects.map((project, index) => (
           <article
             key={project.id}
@@ -56,9 +55,9 @@ const Projects = () => {
               to={`/projects/${project.slug}`}
               className="block"
             >
-              <div className="flex flex-col md:flex-row gap-6 p-4 -mx-4 rounded-lg border border-transparent hover:border-border hover:bg-card/50 transition-all duration-300 hover:shadow-[0_0_30px_-5px_hsl(var(--glow-color)/0.1)]">
+              <div className="flex flex-col md:flex-row gap-0 rounded-lg border border-border/50 overflow-hidden hover:border-border transition-all duration-300 hover:shadow-[0_0_30px_-5px_hsl(var(--glow-color)/0.1)] bg-card/30">
                 {/* Thumbnail */}
-                <div className="w-full md:w-48 h-32 md:h-32 flex-shrink-0 overflow-hidden rounded-md border border-border bg-muted">
+                <div className="w-full md:w-56 h-40 md:h-auto flex-shrink-0 overflow-hidden bg-muted">
                   {project.imageUrl ? (
                     <img
                       src={project.imageUrl}
@@ -76,64 +75,58 @@ const Projects = () => {
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col justify-between min-w-0">
+                <div className="flex-1 p-5 flex flex-col justify-between min-w-0">
                   <div>
                     <div className="flex items-start justify-between gap-4 mb-2">
-                      <h2 className="text-lg font-medium text-foreground flex items-center gap-2">
+                      <h2 className="text-lg font-semibold text-foreground">
                         {project.title}
-                        <ArrowUpRight className="h-4 w-4 opacity-0 transition-all group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                       </h2>
-                      <span className="font-mono text-xs text-muted-foreground whitespace-nowrap">
-                        {project.year}
-                      </span>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {project.liveUrl && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1.5 text-xs h-7 px-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              window.open(project.liveUrl, '_blank');
+                            }}
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                            Live
+                          </Button>
+                        )}
+                        {project.githubUrl && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1.5 text-xs h-7 px-2"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              window.open(project.githubUrl, '_blank');
+                            }}
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                            GitHub
+                          </Button>
+                        )}
+                      </div>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                       {project.description}
                     </p>
 
                     {/* Tags */}
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    <div className="flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-2 py-1 text-xs font-mono rounded-sm border border-border bg-secondary/50 text-muted-foreground"
+                          className="px-2 py-0.5 text-xs font-mono rounded border border-border bg-background text-muted-foreground"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
-                  </div>
-
-                  {/* Buttons */}
-                  <div className="flex items-center gap-3">
-                    {project.liveUrl && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="gap-1.5 text-xs"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(project.liveUrl, '_blank');
-                        }}
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        Live
-                      </Button>
-                    )}
-                    {project.githubUrl && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="gap-1.5 text-xs"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(project.githubUrl, '_blank');
-                        }}
-                      >
-                        <Github className="h-3 w-3" />
-                        GitHub
-                      </Button>
-                    )}
                   </div>
                 </div>
               </div>

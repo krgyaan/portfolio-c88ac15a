@@ -12,7 +12,8 @@ export function Footer() {
   const localTime = time.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
+    timeZone: "Asia/Kolkata",
   });
 
   return (
@@ -20,12 +21,17 @@ export function Footer() {
       <Divider />
       <div className="content-container py-8">
         <div className="flex flex-col gap-4 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <span>Designed & Developed by [Name]</span>
-          <div className="flex items-center gap-4">
-            <span className="font-mono">Visitors: 1,234</span>
-            <span className="hidden h-3 w-px bg-border md:block" />
+          <div>
+            <span>Designed & Developed by </span>
+            <span className="text-foreground font-medium">Vedant</span>
+            <p className="mt-1 text-muted-foreground/70">©2026. All rights reserved.</p>
+          </div>
+          <div className="flex flex-col items-start md:items-end gap-1">
             <span className="font-mono">
-              New York, NY — {localTime}
+              Visitors <span className="text-foreground">#1858</span>
+            </span>
+            <span className="font-mono text-muted-foreground/70">
+              Pune, India, {localTime}
             </span>
           </div>
         </div>

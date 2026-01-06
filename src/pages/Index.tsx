@@ -1,36 +1,34 @@
 import { useEffect, useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { Divider } from "@/components/ui/Divider";
-import { Card, CardTitle, CardDescription } from "@/components/ui/BrutalistCard";
-import { ArrowUpRight, Github, Twitter, Linkedin, Instagram, BadgeCheck, Mail, Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
-import { getProfile, getExperiences, getFeaturedProjects } from "@/api";
-import { Profile, Experience, Project } from "@/types";
+import { Card } from "@/components/ui/BrutalistCard";
+import { ArrowRight, Github, Linkedin, Mail, Calendar, BadgeCheck, BookOpen } from "lucide-react";
+import { getProfile, getExperiences } from "@/api";
+import { Profile, Experience } from "@/types";
 import { Button } from "@/components/ui/button";
+import { KanjiTooltip } from "@/components/home/KanjiTooltip";
+import { ExperienceItem } from "@/components/home/ExperienceItem";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Github,
-  Twitter,
   Linkedin,
-  Instagram,
+  Mail,
+  BookOpen,
 };
 
 const Index = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [experiences, setExperiences] = useState<Experience[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const [profileData, experienceData, projectData] = await Promise.all([
+      const [profileData, experienceData] = await Promise.all([
         getProfile(),
         getExperiences(),
-        getFeaturedProjects(3),
       ]);
       setProfile(profileData);
       setExperiences(experienceData);
-      setProjects(projectData);
       setLoading(false);
     }
     fetchData();
@@ -52,52 +50,51 @@ const Index = () => {
     <>
       {/* Hero Section with Kanji Background */}
       <Section className="pt-20 md:pt-28 relative overflow-hidden">
-        {/* Large Kanji Background */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-          <span className="text-[20rem] md:text-[28rem] font-bold text-muted/[0.03] leading-none tracking-tighter">
-            改善
-          </span>
-        </div>
+        {/* Large Kanji Background with Tooltip */}
+        <KanjiTooltip />
 
-        <div className="animate-fade-in space-y-6 relative z-10">
-          {/* Avatar */}
-          <div className="relative w-24 h-24 md:w-28 md:h-28">
-            <img
-              src={profile.avatarUrl}
-              alt={profile.name}
-              className="w-full h-full rounded-full object-cover border-2 border-border"
-            />
-          </div>
+        <div className="animate-fade-in relative z-10">
+          {/* Avatar + Name Row */}
+          <div className="flex items-center gap-6 mb-6">
+            {/* Avatar */}
+            <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
+              <img
+                src={profile.avatarUrl}
+                alt={profile.name}
+                className="w-full h-full rounded-full object-cover border-2 border-border"
+              />
+            </div>
 
-          {/* Name with Verification Badge */}
-          <div className="space-y-2">
-            <h1 className="text-3xl font-semibold leading-tight md:text-4xl flex items-center gap-2">
-              {profile.name}
-              {profile.isVerified && (
-                <BadgeCheck className="h-6 w-6 text-accent fill-accent/20" />
-              )}
-            </h1>
-            <p className="text-muted-foreground font-mono text-sm">
-              {profile.subtitle}
-            </p>
-          </div>
-
-          {/* Social Icons Row */}
-          <div className="flex items-center gap-4">
-            {profile.socialLinks.map((link) => {
-              const IconComponent = iconMap[link.icon];
-              return (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-foreground transition-colors p-2 -m-2 hover:bg-muted/50 rounded-lg"
-                >
-                  {IconComponent && <IconComponent className="h-5 w-5" />}
-                </a>
-              );
-            })}
+            {/* Name and Info */}
+            <div className="space-y-2">
+              <h1 className="text-2xl font-semibold leading-tight md:text-3xl flex items-center gap-2">
+                {profile.name}
+                {profile.isVerified && (
+                  <BadgeCheck className="h-5 w-5 text-blue-500 fill-blue-500/20" />
+                )}
+              </h1>
+              <p className="text-muted-foreground font-mono text-sm">
+                {profile.age} · {profile.subtitle}
+              </p>
+              {/* Social Icons Row */}
+              <div className="flex items-center gap-3 pt-1">
+                {profile.socialLinks.map((link) => {
+                  const IconComponent = iconMap[link.icon];
+                  return (
+                    <a
+                      key={link.id}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label={link.platform}
+                    >
+                      {IconComponent && <IconComponent className="h-4 w-4" />}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </Section>
@@ -106,10 +103,10 @@ const Index = () => {
 
       {/* About Section */}
       <Section>
-        <h2 className="mb-6 text-sm font-mono uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-4 text-sm font-semibold text-foreground">
           About
         </h2>
-        <p className="text-foreground/90 leading-relaxed max-w-2xl">
+        <p className="text-muted-foreground leading-relaxed max-w-2xl font-mono text-sm">
           {profile.about}
         </p>
       </Section>
@@ -118,68 +115,12 @@ const Index = () => {
 
       {/* Work Experience Section */}
       <Section>
-        <h2 className="mb-8 text-sm font-mono uppercase tracking-wider text-muted-foreground">
+        <h2 className="mb-6 text-sm font-semibold text-foreground">
           Work Experience
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-0">
           {experiences.map((exp, index) => (
-            <div
-              key={exp.id}
-              className="group flex items-start justify-between gap-4 py-4 border-b border-border/50 last:border-0 animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="space-y-1">
-                <h3 className="font-medium text-foreground">{exp.company}</h3>
-                <p className="text-sm text-muted-foreground">{exp.role}</p>
-              </div>
-              <span className="font-mono text-xs text-muted-foreground whitespace-nowrap">
-                {exp.period}
-              </span>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Divider />
-
-      {/* Selected Work Section */}
-      <Section>
-        <div className="mb-8 flex items-center justify-between">
-          <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground">
-            Selected Work
-          </h2>
-          <Link
-            to="/projects"
-            className="group flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            View all
-            <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
-        </div>
-
-        <div className="grid gap-4">
-          {projects.map((project, index) => (
-            <Link
-              key={project.id}
-              to={`/projects/${project.slug}`}
-              className="block animate-fade-in"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <Card className="group">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      {project.title}
-                      <ArrowUpRight className="h-4 w-4 opacity-0 transition-all group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </CardTitle>
-                    <CardDescription>{project.description}</CardDescription>
-                  </div>
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {project.year}
-                  </span>
-                </div>
-              </Card>
-            </Link>
+            <ExperienceItem key={exp.id} experience={exp} index={index} />
           ))}
         </div>
       </Section>
@@ -188,26 +129,36 @@ const Index = () => {
 
       {/* CTA Card */}
       <Section className="pb-20">
-        <Card className="text-center py-12 px-8">
-          <h2 className="text-2xl font-semibold mb-6">Let's work together</h2>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
+        <Card className="text-center py-12 px-8 relative">
+          {/* Corner decorations */}
+          <span className="absolute top-4 left-4 text-muted-foreground/30 text-lg">+</span>
+          <span className="absolute top-4 right-4 text-muted-foreground/30 text-lg">+</span>
+          <span className="absolute bottom-4 left-4 text-muted-foreground/30 text-lg">+</span>
+          <span className="absolute bottom-4 right-4 text-muted-foreground/30 text-lg">+</span>
+          
+          <h2 className="text-xl font-semibold mb-3">Let's work together</h2>
+          <p className="text-muted-foreground text-sm mb-6">
+            Have a project in mind? Let's create something amazing.
+          </p>
+          <div className="flex items-center justify-center gap-3 flex-wrap">
             <Button
               asChild
               variant="outline"
+              size="sm"
               className="gap-2"
             >
               <a href={`mailto:${profile.email}`}>
-                <Mail className="h-4 w-4" />
                 Email Me
               </a>
             </Button>
             <Button
               asChild
+              size="sm"
               className="gap-2"
             >
               <a href={profile.calendarUrl} target="_blank" rel="noopener noreferrer">
-                <Calendar className="h-4 w-4" />
                 Book a Call
+                <ArrowRight className="h-3 w-3" />
               </a>
             </Button>
           </div>

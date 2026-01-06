@@ -5,4 +5,5 @@ export interface Experience {
   period: string;
   description?: string;
   logoUrl?: string;
+  highlights?: string[];
 }
