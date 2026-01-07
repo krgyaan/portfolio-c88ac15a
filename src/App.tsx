@@ -14,25 +14,25 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/:slug" element={<ProjectDetail />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+            <TooltipProvider>
+                <Toaster />
+                <Sonner />
+                <BrowserRouter>
+                    <Layout>
+                        <Routes>
+                            <Route path="/" element={<Index />} />
+                            <Route path="/projects" element={<Projects />} />
+                            <Route path="/projects/:slug" element={<ProjectDetail />} />
+                            <Route path="/blog" element={<Blog />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </Layout>
+                </BrowserRouter>
+            </TooltipProvider>
+        </ThemeProvider>
+    </QueryClientProvider>
 );
 
 export default App;

@@ -4,19 +4,19 @@ import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
 interface LayoutProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
-  const location = useLocation();
+    const location = useLocation();
 
-  return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar />
-      <main key={location.pathname} className="flex-1 page-transition">
-        {children}
-      </main>
-      <Footer />
-    </div>
-  );
+    return (
+        <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main key={location.pathname} className="flex-1 page-transition">
+                {children}
+            </main>
+            <Footer />
+        </div>
+    );
 }
