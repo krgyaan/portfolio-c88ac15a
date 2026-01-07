@@ -3,6 +3,7 @@ import { fetchGitHubHeatmap } from "@/api/github.api";
 import { cn } from "@/lib/utils";
 import { GitHubHeatmapType } from "@/types/api.types";
 import { Section } from "../ui/Section";
+import { ExternalLink } from "lucide-react";
 
 const LEVEL_STYLES = [
     "bg-muted",
@@ -11,6 +12,8 @@ const LEVEL_STYLES = [
     "bg-neutral-300",
     "bg-white",
 ];
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function GitHubHeatmap({ username }: { username: string }) {
     const [data, setData] = useState<GitHubHeatmapType | null>(null);
@@ -21,24 +24,65 @@ export function GitHubHeatmap({ username }: { username: string }) {
 
     if (!data) return null;
 
+    // Calculate month labels positions based on weeks
+    const getMonthLabels = () => {
+        const labels: { month: string; position: number }[] = [];
+        let currentMonth = -1;
+        
+        data.weeks.forEach((week, index) => {
+            if (week.days.length > 0) {
+                const date = new Date(week.days[0].date);
+                const month = date.getMonth();
+                if (month !== currentMonth) {
+                    labels.push({ month: MONTHS[month], position: index });
+                    currentMonth = month;
+                }
+            }
+        });
+        
+        return labels;
+    };
+
+    const monthLabels = getMonthLabels();
+
     return (
         <Section>
             <div className="space-y-4">
-                <div className="flex gap-[3px]">
-                    {data.weeks.map((week, wIdx) => (
-                        <div key={wIdx} className="flex flex-col gap-[3px]">
-                            {week.days.map((day) => (
-                                <div
-                                    key={day.date}
-                                    title={`${day.count} contributions on ${day.date}`}
-                                    className={cn(
-                                        "h-[10px] w-[10px] rounded-sm",
-                                        LEVEL_STYLES[day.level]
-                                    )}
-                                />
-                            ))}
-                        </div>
-                    ))}
+                <h3 className="text-xl font-semibold">GitHub Activity</h3>
+                
+                {/* Month labels */}
+                <div className="relative">
+                    <div className="flex text-xs text-muted-foreground mb-2" style={{ marginLeft: '0px' }}>
+                        {monthLabels.map((label, idx) => (
+                            <span
+                                key={idx}
+                                className="absolute"
+                                style={{ left: `${label.position * 13}px` }}
+                            >
+                                {label.month}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Heatmap grid */}
+                <div className="overflow-x-auto pt-4">
+                    <div className="flex gap-[3px]">
+                        {data.weeks.map((week, wIdx) => (
+                            <div key={wIdx} className="flex flex-col gap-[3px]">
+                                {week.days.map((day) => (
+                                    <div
+                                        key={day.date}
+                                        title={`${day.count} contributions on ${day.date}`}
+                                        className={cn(
+                                            "h-[10px] w-[10px] rounded-sm",
+                                            LEVEL_STYLES[day.level]
+                                        )}
+                                    />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -51,6 +95,19 @@ export function GitHubHeatmap({ username }: { username: string }) {
                         ))}
                         <span>More</span>
                     </div>
+                </div>
+
+                {/* Follow me link */}
+                <div className="flex justify-end pt-2">
+                    <a
+                        href={`https://github.com/${username}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
+                    >
+                        Follow me on GitHub
+                        <ExternalLink className="h-3 w-3" />
+                    </a>
                 </div>
             </div>
         </Section>

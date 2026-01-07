@@ -106,7 +106,7 @@ const Projects = () => {
                                                             window.open(project.githubUrl, '_blank');
                                                         }}
                                                     >
-                                                        <ExternalLink className="h-3 w-3" />
+                                                        <Github className="h-3 w-3" />
                                                         GitHub
                                                     </Button>
                                                 )}
