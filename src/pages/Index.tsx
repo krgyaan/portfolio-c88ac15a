@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Section } from "@/components/ui/Section";
-import { Divider } from "@/components/ui/Divider";
-import { Github, Linkedin, Mail, BadgeCheck, Code } from "lucide-react";
+import { Github, Linkedin, Mail, Code } from "lucide-react";
 import { getProfile, getExperiences } from "@/api";
 import { Profile, Experience } from "@/types/api.types";
 import { KanjiTooltip } from "@/components/home/KanjiTooltip";
 import { ExperienceItem } from "@/components/home/ExperienceItem";
 import { CallToAction } from "@/components/home/CallToAction";
 import { SkillsSection } from "@/components/home/SkillsSection";
+import { OpenSourceContributions } from "@/components/home/OpenSourceContributions";
+import { GitHubHeatmap } from "@/components/home/GitHubHeatmap";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = { Github, Linkedin, Mail, Code };
 
@@ -107,6 +108,8 @@ const Index = () => {
                 </div>
             </Section>
             <SkillsSection />
+            <OpenSourceContributions />
+            <GitHubHeatmap username="krgyaan" />
             <CallToAction socials={profile.socialLinks} />
         </>
     );

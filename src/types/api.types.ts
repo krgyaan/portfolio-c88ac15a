@@ -73,3 +73,34 @@ export interface SkillCategory {
   title: string;
   skills: Skill[];
 }
+
+export interface GitHubContributionDay {
+  date: string;
+  count: number;
+  level: 0 | 1 | 2 | 3 | 4;
+}
+
+export interface GitHubContribution {
+  total: number;
+  days: GitHubContributionDay[];
+}
+
+export interface GitHubRepo {
+  id: string;
+  name: string;
+  description: string | null;
+  language: string | null;
+  stars: number;
+  forks?: number;
+  url: string;
+  homepage?: string;
+}
+
+export interface GitHubWeek {
+  days: GitHubContributionDay[];
+}
+
+export interface GitHubHeatmapType {
+  total: number;
+  weeks: GitHubWeek[];
+}
