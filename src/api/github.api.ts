@@ -78,7 +78,12 @@ function getWeekNumber(date: Date): number {
  */
 export async function fetchTopGitHubRepos(username: string): Promise<GitHubRepoAPI[]> {
   const res = await fetch(
-    `https://api.github.com/users/${username}/repos?sort=stars&per_page=100&type=owner`
+    `https://api.github.com/users/${username}/repos?sort=stars&per_page=100&type=owner`,
+    {
+      headers: {
+        'Accept': 'application/vnd.github.mercy-preview+json'
+      }
+    }
   );
 
   if (!res.ok) {
