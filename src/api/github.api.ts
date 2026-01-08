@@ -19,9 +19,13 @@ export interface GitHubRepoAPI {
   homepage: string | null;
   stargazers_count: number;
   forks_count: number;
+  watchers_count: number;
   language: string | null;
   topics: string[];
   fork: boolean;
+  created_at: string;
+  updated_at: string;
+  license: { name: string } | null;
 }
 
 /**
@@ -92,9 +96,9 @@ export async function fetchTopGitHubRepos(username: string): Promise<GitHubRepoA
 
   const repos: GitHubRepoAPI[] = await res.json();
   
-  // Filter out forks and sort by stars, return top 6
+  // Filter out forks and sort by stars, return top 12 for filtering
   return repos
     .filter(repo => !repo.fork)
     .sort((a, b) => b.stargazers_count - a.stargazers_count)
-    .slice(0, 6);
+    .slice(0, 12);
 }
