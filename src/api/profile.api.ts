@@ -13,7 +13,8 @@ const mockProfile: Profile = {
     { id: "1", platform: "Gmail", url: "mailto:gyanprakashk55@gmail.com", icon: "Mail" },
     { id: "2", platform: "GitHub", url: "https://github.com/krgyaan", icon: "Github" },
     { id: "3", platform: "LinkedIn", url: "https://linkedin.com/in/krgyaan", icon: "Linkedin" },
-    { id: "4", platform: "Leetcode", url: "https://leetcode.com/u/_gyaan_/", icon: "Code" },
+    { id: "4", platform: "Twitter/X", url: "https://x.com/krgyaan", icon: "X" },
+    { id: "5", platform: "Leetcode", url: "https://leetcode.com/u/_gyaan_/", icon: "Code" },
   ],
 };
 
