@@ -1,3 +1,4 @@
+import { useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -6,18 +7,19 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { GitHubRepoAPI } from "@/api/github.api";
-import { ExternalLink, Github, Star, GitFork, Eye, Calendar, Scale } from "lucide-react";
+import { ExternalLink, Github, Star, GitFork, Eye, Calendar, Scale, ChevronLeft, ChevronRight } from "lucide-react";
 import { getLanguageColor } from "@/lib/languageColors";
 
 interface ProjectModalProps {
   repo: GitHubRepoAPI | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  onNavigate?: (direction: "prev" | "next") => void;
+  hasPrev?: boolean;
+  hasNext?: boolean;
 }
 
-export const ProjectModal = ({ repo, open, onOpenChange }: ProjectModalProps) => {
-  if (!repo) return null;
-
+export const ProjectModal = ({ repo, open, onOpenChange, onNavigate, hasPrev, hasNext }: ProjectModalProps) => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
@@ -25,6 +27,24 @@ export const ProjectModal = ({ repo, open, onOpenChange }: ProjectModalProps) =>
       day: "numeric",
     });
   };
+
+  // Keyboard navigation
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (!open || !onNavigate) return;
+    
+    if (e.key === "ArrowLeft" && hasPrev) {
+      onNavigate("prev");
+    } else if (e.key === "ArrowRight" && hasNext) {
+      onNavigate("next");
+    }
+  }, [open, onNavigate, hasPrev, hasNext]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [handleKeyDown]);
+
+  if (!repo) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -108,6 +128,33 @@ export const ProjectModal = ({ repo, open, onOpenChange }: ProjectModalProps) =>
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Navigation Buttons */}
+          {onNavigate && (
+            <div className="flex items-center justify-between pt-2 border-t border-border/50">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => onNavigate("prev")}
+                disabled={!hasPrev}
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Previous
+              </Button>
+              <span className="text-xs text-muted-foreground">Use ← → arrows to navigate</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => onNavigate("next")}
+                disabled={!hasNext}
+              >
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </Button>
             </div>
           )}
 

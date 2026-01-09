@@ -1,7 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, X } from "lucide-react";
+import { Search, X, ArrowUpDown, Star, GitFork, Clock } from "lucide-react";
 import { getLanguageColor } from "@/lib/languageColors";
+
+export type SortOption = "stars" | "forks" | "updated";
 
 interface ProjectFiltersProps {
   searchQuery: string;
@@ -12,7 +14,15 @@ interface ProjectFiltersProps {
   onTopicChange: (topic: string | null) => void;
   languages: string[];
   topics: string[];
+  sortBy: SortOption;
+  onSortChange: (sort: SortOption) => void;
 }
+
+const sortOptions: { value: SortOption; label: string; icon: React.ReactNode }[] = [
+  { value: "stars", label: "Stars", icon: <Star className="h-3.5 w-3.5" /> },
+  { value: "forks", label: "Forks", icon: <GitFork className="h-3.5 w-3.5" /> },
+  { value: "updated", label: "Updated", icon: <Clock className="h-3.5 w-3.5" /> },
+];
 
 export const ProjectFilters = ({
   searchQuery,
@@ -23,6 +33,8 @@ export const ProjectFilters = ({
   onTopicChange,
   languages,
   topics,
+  sortBy,
+  onSortChange,
 }: ProjectFiltersProps) => {
   const hasActiveFilters = searchQuery || selectedLanguage || selectedTopic;
 
@@ -34,15 +46,39 @@ export const ProjectFilters = ({
 
   return (
     <div className="space-y-4 mb-8 animate-fade-in">
-      {/* Search Input */}
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search projects..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-10 bg-background/50"
-        />
+      {/* Search and Sort Row */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search projects..."
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="pl-10 bg-background/50"
+          />
+        </div>
+
+        {/* Sort Options */}
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-muted-foreground flex items-center gap-1">
+            <ArrowUpDown className="h-3 w-3" />
+            Sort:
+          </span>
+          <div className="flex gap-1">
+            {sortOptions.map((option) => (
+              <Button
+                key={option.value}
+                size="sm"
+                variant={sortBy === option.value ? "default" : "outline"}
+                className="gap-1.5 h-8 text-xs"
+                onClick={() => onSortChange(option.value)}
+              >
+                {option.icon}
+                {option.label}
+              </Button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Language Filter */}

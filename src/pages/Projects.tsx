@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Section } from "@/components/ui/Section";
 import { ExternalLink, Github, Star, GitFork } from "lucide-react";
 import { fetchTopGitHubRepos, GitHubRepoAPI } from "@/api/github.api";
 import { Button } from "@/components/ui/button";
 import { ProjectModal } from "@/components/projects/ProjectModal";
-import { ProjectFilters } from "@/components/projects/ProjectFilters";
+import { ProjectFilters, SortOption } from "@/components/projects/ProjectFilters";
 import { getLanguageColor } from "@/lib/languageColors";
 
 const GITHUB_USERNAME = "krgyaan";
@@ -18,6 +18,10 @@ const Projects = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
     const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+    const [sortBy, setSortBy] = useState<SortOption>("stars");
+    const [focusedIndex, setFocusedIndex] = useState(-1);
+    const gridRef = useRef<HTMLDivElement>(null);
+    const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
     useEffect(() => {
         async function fetchRepos() {
@@ -45,9 +49,9 @@ const Projects = () => {
         return [...new Set(topics)];
     }, [repos]);
 
-    // Filtered repos
+    // Filtered and sorted repos
     const filteredRepos = useMemo(() => {
-        return repos.filter((repo) => {
+        const filtered = repos.filter((repo) => {
             const matchesSearch =
                 !searchQuery ||
                 repo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -56,12 +60,91 @@ const Projects = () => {
             const matchesTopic = !selectedTopic || repo.topics?.includes(selectedTopic);
             return matchesSearch && matchesLanguage && matchesTopic;
         });
-    }, [repos, searchQuery, selectedLanguage, selectedTopic]);
+
+        // Sort repos
+        return filtered.sort((a, b) => {
+            switch (sortBy) {
+                case "stars":
+                    return b.stargazers_count - a.stargazers_count;
+                case "forks":
+                    return b.forks_count - a.forks_count;
+                case "updated":
+                    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+                default:
+                    return 0;
+            }
+        });
+    }, [repos, searchQuery, selectedLanguage, selectedTopic, sortBy]);
 
     const handleCardClick = (repo: GitHubRepoAPI) => {
         setSelectedRepo(repo);
         setModalOpen(true);
     };
+
+    // Modal navigation
+    const handleModalNavigate = useCallback((direction: "prev" | "next") => {
+        if (!selectedRepo) return;
+        const currentIndex = filteredRepos.findIndex((r) => r.id === selectedRepo.id);
+        const newIndex = direction === "prev" ? currentIndex - 1 : currentIndex + 1;
+        if (newIndex >= 0 && newIndex < filteredRepos.length) {
+            setSelectedRepo(filteredRepos[newIndex]);
+        }
+    }, [selectedRepo, filteredRepos]);
+
+    const currentRepoIndex = selectedRepo ? filteredRepos.findIndex((r) => r.id === selectedRepo.id) : -1;
+
+    // Keyboard navigation for grid
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+        if (modalOpen) return; // Let modal handle its own keyboard events
+        
+        const gridColumns = window.innerWidth >= 768 ? 2 : 1;
+        const totalItems = filteredRepos.length;
+        
+        if (totalItems === 0) return;
+
+        let newIndex = focusedIndex;
+
+        switch (e.key) {
+            case "ArrowRight":
+                newIndex = Math.min(focusedIndex + 1, totalItems - 1);
+                break;
+            case "ArrowLeft":
+                newIndex = Math.max(focusedIndex - 1, 0);
+                break;
+            case "ArrowDown":
+                newIndex = Math.min(focusedIndex + gridColumns, totalItems - 1);
+                break;
+            case "ArrowUp":
+                newIndex = Math.max(focusedIndex - gridColumns, 0);
+                break;
+            case "Enter":
+                if (focusedIndex >= 0 && focusedIndex < totalItems) {
+                    handleCardClick(filteredRepos[focusedIndex]);
+                }
+                return;
+            case "Escape":
+                setFocusedIndex(-1);
+                return;
+            default:
+                return;
+        }
+
+        if (newIndex !== focusedIndex && newIndex >= 0) {
+            e.preventDefault();
+            setFocusedIndex(newIndex);
+            cardRefs.current[newIndex]?.focus();
+        }
+    }, [focusedIndex, filteredRepos, modalOpen, handleCardClick]);
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+        return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [handleKeyDown]);
+
+    // Reset focus when filters change
+    useEffect(() => {
+        setFocusedIndex(-1);
+    }, [searchQuery, selectedLanguage, selectedTopic, sortBy]);
 
     if (loading) {
         return (
@@ -92,7 +175,7 @@ const Projects = () => {
             <div className="mb-12 space-y-4 animate-fade-in">
                 <h1 className="text-3xl font-semibold md:text-4xl">Projects</h1>
                 <p className="text-muted-foreground">
-                    My top open-source repositories on GitHub.
+                    My top open-source repositories on GitHub. Use arrow keys to navigate, Enter to open.
                 </p>
             </div>
 
@@ -105,6 +188,8 @@ const Projects = () => {
                 onTopicChange={setSelectedTopic}
                 languages={languages}
                 topics={allTopics}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
             />
 
             {filteredRepos.length === 0 ? (
@@ -112,12 +197,17 @@ const Projects = () => {
                     No projects match your filters.
                 </p>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {filteredRepos.map((repo, index) => (
                         <article
                             key={repo.id}
+                            ref={(el) => (cardRefs.current[index] = el)}
+                            tabIndex={0}
                             onClick={() => handleCardClick(repo)}
-                            className="group animate-fade-in rounded-xl border border-border/40 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_40px_-12px_hsl(var(--primary)/0.15)] bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm cursor-pointer"
+                            onFocus={() => setFocusedIndex(index)}
+                            className={`group animate-fade-in rounded-xl border border-border/40 overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_40px_-12px_hsl(var(--primary)/0.15)] bg-gradient-to-br from-card/50 to-card/30 backdrop-blur-sm cursor-pointer outline-none ${
+                                focusedIndex === index ? "ring-2 ring-primary ring-offset-2 ring-offset-background" : ""
+                            }`}
                             style={{ animationDelay: `${index * 100}ms` }}
                         >
                             <div className="p-6 flex flex-col h-full">
@@ -224,6 +314,9 @@ const Projects = () => {
                 repo={selectedRepo}
                 open={modalOpen}
                 onOpenChange={setModalOpen}
+                onNavigate={handleModalNavigate}
+                hasPrev={currentRepoIndex > 0}
+                hasNext={currentRepoIndex < filteredRepos.length - 1}
             />
         </Section>
     );
