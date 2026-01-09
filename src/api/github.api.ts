@@ -1,3 +1,4 @@
+import { addDays, format, parseISO, startOfWeek } from "date-fns";
 import { GitHubContributionDay, GitHubHeatmapType, GitHubWeek } from "@/types/api.types";
 
 const LEVEL_THRESHOLDS = [0, 1, 5, 10, 20];
@@ -43,38 +44,62 @@ export async function fetchGitHubHeatmap(
   }
 
   const data = await res.json();
-  
-  // Transform the API response to our format
-  const contributionsByWeek: Map<number, GitHubContributionDay[]> = new Map();
-  let total = data.total?.lastYear || 0;
 
-  // The API returns contributions as an array of { date, count, level }
+  // Transform the API response to our format
+  // IMPORTANT: last-year contributions span multiple calendar years.
+  // Grouping by plain "week number" will collide and create weeks with > 7 days.
+  // We instead group by the *week start date* (Sunday) to guarantee 7 rows.
+  const contributionsByWeekStart = new Map<string, Map<string, GitHubContributionDay>>();
+  const total = data.total?.lastYear || 0;
+
+  let minDay: string | null = null;
+  let maxDay: string | null = null;
+
   if (data.contributions) {
-    data.contributions.forEach((contribution: { date: string; count: number; level: number }) => {
-      const date = new Date(contribution.date);
-      const weekNumber = getWeekNumber(date);
-      
-      if (!contributionsByWeek.has(weekNumber)) {
-        contributionsByWeek.set(weekNumber, []);
+    for (const contribution of data.contributions as Array<{ date: string; count: number; level: number }>) {
+      const d = parseISO(contribution.date);
+      const dayKey = format(d, "yyyy-MM-dd");
+      const weekStart = startOfWeek(d, { weekStartsOn: 0 });
+      const weekKey = format(weekStart, "yyyy-MM-dd");
+
+      if (!minDay || dayKey < minDay) minDay = dayKey;
+      if (!maxDay || dayKey > maxDay) maxDay = dayKey;
+
+      if (!contributionsByWeekStart.has(weekKey)) {
+        contributionsByWeekStart.set(weekKey, new Map());
       }
-      
-      contributionsByWeek.get(weekNumber)!.push({
-        date: contribution.date,
+
+      contributionsByWeekStart.get(weekKey)!.set(dayKey, {
+        date: dayKey,
         count: contribution.count,
         level: getLevel(contribution.count),
       });
-    });
+    }
   }
 
-  const weeks: GitHubWeek[] = Array.from(contributionsByWeek.values()).map(days => ({ days }));
+  if (!minDay || !maxDay) {
+    return { total, weeks: [] };
+  }
+
+  const rangeStart = startOfWeek(parseISO(minDay), { weekStartsOn: 0 });
+  const rangeEnd = startOfWeek(parseISO(maxDay), { weekStartsOn: 0 });
+
+  const weeks: GitHubWeek[] = [];
+  for (let cursor = rangeStart; cursor <= rangeEnd; cursor = addDays(cursor, 7)) {
+    const weekKey = format(cursor, "yyyy-MM-dd");
+    const byDate = contributionsByWeekStart.get(weekKey);
+
+    const days: GitHubContributionDay[] = [];
+    for (let i = 0; i < 7; i++) {
+      const day = addDays(cursor, i);
+      const dayKey = format(day, "yyyy-MM-dd");
+      days.push(byDate?.get(dayKey) ?? { date: dayKey, count: 0, level: 0 });
+    }
+
+    weeks.push({ days });
+  }
 
   return { total, weeks };
-}
-
-function getWeekNumber(date: Date): number {
-  const startOfYear = new Date(date.getFullYear(), 0, 1);
-  const days = Math.floor((date.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000));
-  return Math.ceil((days + startOfYear.getDay() + 1) / 7);
 }
 
 /**
