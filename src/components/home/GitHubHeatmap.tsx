@@ -67,7 +67,7 @@ export function GitHubHeatmap({ username }: { username: string }) {
 
                 {/* Heatmap grid */}
                 <div className="overflow-x-auto pt-4">
-                    <div className="flex gap-[3px]">
+                    <div className="inline-flex gap-[3px] flex-nowrap" style={{ minWidth: 'max-content' }}>
                         {data.weeks.map((week, wIdx) => {
                             // Get the day of week for the first day (0 = Sunday, 6 = Saturday)
                             const firstDayOfWeek = week.days.length > 0 
@@ -78,7 +78,7 @@ export function GitHubHeatmap({ username }: { username: string }) {
                             const paddingDays = wIdx === 0 ? firstDayOfWeek : 0;
                             
                             return (
-                                <div key={wIdx} className="flex flex-col gap-[3px]">
+                                <div key={wIdx} className="flex flex-col gap-[3px] flex-shrink-0">
                                     {/* Add empty cells for padding */}
                                     {Array.from({ length: paddingDays }).map((_, i) => (
                                         <div
@@ -91,7 +91,7 @@ export function GitHubHeatmap({ username }: { username: string }) {
                                             key={day.date}
                                             title={`${day.count} contributions on ${day.date}`}
                                             className={cn(
-                                                "h-[10px] w-[10px] rounded-sm",
+                                                "h-[10px] w-[10px] rounded-sm flex-shrink-0",
                                                 LEVEL_STYLES[day.level]
                                             )}
                                         />
