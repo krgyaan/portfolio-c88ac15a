@@ -6,41 +6,44 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;
-    --foreground: 40 10% 90%;
+    /* Light theme as default (rinkit.tech style) */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 10%;
 
-    --card: 0 0% 6%;
-    --card-foreground: 40 10% 90%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
 
-    --popover: 0 0% 6%;
-    --popover-foreground: 40 10% 90%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 40 10% 90%;
-    --primary-foreground: 0 0% 4%;
+    --primary: 0 0% 10%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 40 10% 90%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 0 0% 12%;
-    --muted-foreground: 40 5% 55%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 45 100% 60%;
-    --accent-foreground: 0 0% 4%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 40 10% 90%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 14%;
-    --ring: 40 10% 90%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 10%;
 
-    --radius: 0.25rem;
+    --radius: 0.5rem;
 
-    /* Custom brutalist tokens */
-    --glow-color: 40 10% 90%;
-    --glow-accent: 45 100% 60%;
-    --divider: 0 0% 20%;
-    --noise-opacity: 0.03;
+    /* Custom tokens */
+    --glow-color: 0 0% 10%;
+    --divider: 0 0% 88%;
+    --noise-opacity: 0.015;
+    --status-online: 142 76% 36%;
+    --status-busy: 38 92% 50%;
+    --status-offline: 0 0% 60%;
   }
 
   .light {
@@ -52,45 +55,45 @@
     --popover-foreground: 0 0% 10%;
     --primary: 0 0% 10%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 94%;
+    --secondary: 0 0% 96%;
     --secondary-foreground: 0 0% 10%;
-    --muted: 0 0% 90%;
+    --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
-    --accent: 45 100% 50%;
-    --accent-foreground: 0 0% 10%;
+    --accent: 142 76% 36%;
+    --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 85%;
+    --border: 0 0% 90%;
     --input: 0 0% 90%;
     --ring: 0 0% 10%;
     --divider: 0 0% 88%;
     --glow-color: 0 0% 10%;
-    --noise-opacity: 0.02;
+    --noise-opacity: 0.015;
   }
 
   .dark {
     --background: 0 0% 4%;
-    --foreground: 40 10% 90%;
-    --card: 0 0% 6%;
-    --card-foreground: 40 10% 90%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 40 10% 90%;
-    --primary: 40 10% 90%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 0 0% 95%;
     --primary-foreground: 0 0% 4%;
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 40 10% 90%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 40 5% 55%;
-    --accent: 45 100% 60%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 142 76% 45%;
     --accent-foreground: 0 0% 4%;
     --destructive: 0 62.8% 50%;
-    --destructive-foreground: 40 10% 90%;
-    --border: 0 0% 18%;
-    --input: 0 0% 14%;
-    --ring: 40 10% 90%;
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 0 0% 95%;
     --divider: 0 0% 20%;
-    --glow-color: 40 10% 90%;
-    --noise-opacity: 0.03;
+    --glow-color: 0 0% 95%;
+    --noise-opacity: 0.02;
   }
 }
 
@@ -114,7 +117,7 @@
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Noise texture overlay */
+  /* Subtle noise texture overlay */
   body::before {
     content: '';
     position: fixed;
@@ -129,7 +132,7 @@
   }
 
   ::selection {
-    @apply bg-accent text-accent-foreground;
+    @apply bg-primary text-primary-foreground;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -143,17 +146,44 @@
 
 @layer components {
   .content-container {
-    @apply mx-auto w-full max-w-3xl px-6;
+    @apply mx-auto w-full max-w-2xl px-6;
   }
 
+  /* Bordered container with dashed lines */
+  .bordered-container {
+    @apply relative;
+  }
+
+  .bordered-container::before,
+  .bordered-container::after {
+    content: '';
+    @apply absolute top-0 bottom-0 w-px;
+    background: repeating-linear-gradient(
+      to bottom,
+      hsl(var(--border)) 0,
+      hsl(var(--border)) 4px,
+      transparent 4px,
+      transparent 8px
+    );
+  }
+
+  .bordered-container::before {
+    @apply left-0;
+  }
+
+  .bordered-container::after {
+    @apply right-0;
+  }
+
+  /* Glow effects */
   .glow-border {
     @apply relative;
   }
 
   .glow-border::before {
     content: '';
-    @apply absolute inset-0 rounded-sm opacity-0 transition-opacity duration-300;
-    box-shadow: 0 0 20px 2px hsl(var(--glow-color) / 0.15);
+    @apply absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300;
+    box-shadow: 0 0 20px 2px hsl(var(--glow-color) / 0.1);
   }
 
   .glow-border:hover::before {
@@ -161,7 +191,14 @@
   }
 
   .divider-line {
-    @apply h-px w-full border border-dashed;
+    @apply h-px w-full;
+    background: repeating-linear-gradient(
+      to right,
+      hsl(var(--border)) 0,
+      hsl(var(--border)) 4px,
+      transparent 4px,
+      transparent 8px
+    );
   }
 
   /* Page transition */
@@ -178,6 +215,45 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* Skill badge styles */
+  .skill-badge {
+    @apply px-3 py-1.5 text-sm font-medium rounded-full border border-border bg-card;
+    @apply hover:bg-secondary hover:border-primary/30 transition-all duration-200;
+    @apply cursor-default select-none;
+  }
+
+  /* Status indicator */
+  .status-dot {
+    @apply w-2.5 h-2.5 rounded-full;
+  }
+
+  .status-dot.online {
+    background-color: hsl(var(--status-online));
+    box-shadow: 0 0 8px hsl(var(--status-online) / 0.5);
+  }
+
+  .status-dot.busy {
+    background-color: hsl(var(--status-busy));
+  }
+
+  .status-dot.offline {
+    background-color: hsl(var(--status-offline));
+  }
+
+  /* Social badge pill */
+  .social-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full;
+    @apply border border-border bg-card text-foreground;
+    @apply hover:bg-secondary hover:border-primary/30 transition-all duration-200;
+  }
+
+  /* Hire me badge */
+  .hire-badge {
+    @apply absolute -top-2 -right-2 px-2 py-0.5 text-xs font-bold rounded-full;
+    @apply bg-accent text-accent-foreground;
+    @apply rotate-12 shadow-sm;
   }
 }
 
@@ -203,5 +279,20 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

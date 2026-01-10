@@ -53,6 +53,11 @@ export default {
         },
         divider: "hsl(var(--divider))",
         glow: "hsl(var(--glow-color))",
+        status: {
+          online: "hsl(var(--status-online))",
+          busy: "hsl(var(--status-busy))",
+          offline: "hsl(var(--status-offline))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

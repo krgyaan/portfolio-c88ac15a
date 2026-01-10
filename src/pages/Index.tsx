@@ -1,118 +1,98 @@
 import { useEffect, useState } from "react";
-import { Section } from "@/components/ui/Section";
-import { Github, Linkedin, Mail, Code } from "lucide-react";
-import { getProfile, getExperiences } from "@/api";
-import { Profile, Experience } from "@/types/api.types";
-import { KanjiTooltip } from "@/components/home/KanjiTooltip";
+import { getProfile, getExperiences, getSiteConfig } from "@/api";
+import { Profile, Experience, SiteConfig } from "@/types/api.types";
+import { ProfileCard } from "@/components/home/ProfileCard";
 import { ExperienceItem } from "@/components/home/ExperienceItem";
 import { CallToAction } from "@/components/home/CallToAction";
 import { SkillsSection } from "@/components/home/SkillsSection";
 import { OpenSourceContributions } from "@/components/home/OpenSourceContributions";
 import { GitHubHeatmap } from "@/components/home/GitHubHeatmap";
 
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = { Github, Linkedin, Mail, Code };
-
 const Index = () => {
-    const [profile, setProfile] = useState<Profile | null>(null);
-    const [experiences, setExperiences] = useState<Experience[]>([]);
-    const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [config, setConfig] = useState<SiteConfig | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        async function fetchData() {
-            const [profileData, experienceData] = await Promise.all([
-                getProfile(),
-                getExperiences(),
-            ]);
-            setProfile(profileData);
-            setExperiences(experienceData);
-            setLoading(false);
-        }
-        fetchData();
-    }, []);
-
-    if (loading || !profile) {
-        return (
-            <Section className="pt-10 md:pt-14">
-                <div className="animate-pulse space-y-4">
-                    <div className="h-24 w-24 rounded-full bg-muted" />
-                    <div className="h-8 w-48 bg-muted rounded" />
-                    <div className="h-4 w-64 bg-muted rounded" />
-                </div>
-            </Section>
-        );
+  useEffect(() => {
+    async function fetchData() {
+      const [profileData, experienceData, configData] = await Promise.all([
+        getProfile(),
+        getExperiences(),
+        getSiteConfig(),
+      ]);
+      setProfile(profileData);
+      setExperiences(experienceData);
+      setConfig(configData);
+      setLoading(false);
     }
+    fetchData();
+  }, []);
 
+  if (loading || !profile) {
     return (
-        <>
-            <Section className="pt-10 md:pt-14 relative overflow-hidden">
-                {/* Large Kanji Background with Tooltip */}
-                <KanjiTooltip />
-
-                <div className="animate-fade-in relative z-10">
-                    <div className="flex items-center gap-6 mb-6">
-                        {/* Avatar */}
-                        <div className="relative w-24 h-24 md:w-28 md:h-28 flex-shrink-0">
-                            <img
-                                src={profile.avatarUrl}
-                                alt={profile.name}
-                                className="w-full h-full rounded-full object-cover border-2 border-border"
-                            />
-                        </div>
-
-                        {/* Name and Info */}
-                        <div className="space-y-2">
-                            <h1 className="text-2xl font-semibold leading-tight md:text-3xl flex items-center gap-2">
-                                {profile.name}
-                            </h1>
-                            <p className="text-muted-foreground font-mono text-base">
-                                {profile.age} · {profile.subtitle}
-                            </p>
-                            {/* Social Icons Row */}
-                            <div className="flex items-center gap-3 pt-1">
-                                {profile.socialLinks.map((link) => {
-                                    const IconComponent = iconMap[link.icon];
-                                    return (
-                                        <a
-                                            key={link.id}
-                                            href={link.url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-muted-foreground hover:text-foreground transition-colors"
-                                            aria-label={link.platform}
-                                        >
-                                            {IconComponent && <IconComponent className="h-4 w-4" />}
-                                        </a>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Section>
-            <Section>
-                <h2 className="text-base font-semibold text-foreground">
-                    About
-                </h2>
-                <p className="text-muted-foreground leading-relaxed font-mono text-sm">
-                    {profile.about}
-                </p>
-            </Section>
-            <Section>
-                <h2 className="text-base font-semibold text-foreground">
-                    Work Experience
-                </h2>
-                <div className="space-y-0">
-                    {experiences.map((exp, index) => (
-                        <ExperienceItem key={exp.id} experience={exp} index={index} />
-                    ))}
-                </div>
-            </Section>
-            <SkillsSection />
-            <OpenSourceContributions />
-            <GitHubHeatmap username="krgyaan" />
-            <CallToAction socials={profile.socialLinks} />
-        </>
+      <div className="animate-pulse space-y-6">
+        <div className="flex items-start gap-5">
+          <div className="h-20 w-20 rounded-full bg-secondary" />
+          <div className="space-y-3 flex-1">
+            <div className="h-8 w-48 bg-secondary rounded" />
+            <div className="h-4 w-64 bg-secondary rounded" />
+          </div>
+        </div>
+        <div className="flex gap-3">
+          <div className="h-10 w-36 bg-secondary rounded-lg" />
+          <div className="h-10 w-32 bg-secondary rounded-lg" />
+        </div>
+      </div>
     );
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Profile Section */}
+      <ProfileCard profile={profile} config={config} />
+
+      {/* Divider */}
+      <div className="divider-line" />
+
+      {/* About Section */}
+      <section className="py-2">
+        <h2 className="text-base font-semibold text-foreground mb-3">
+          About
+        </h2>
+        <p className="text-muted-foreground leading-relaxed text-sm">
+          {profile.about}
+        </p>
+      </section>
+
+      {/* Divider */}
+      <div className="divider-line" />
+
+      {/* Work Experience Section */}
+      <section className="py-2">
+        <h2 className="text-base font-semibold text-foreground mb-4">
+          Work Experience
+        </h2>
+        <div>
+          {experiences.map((exp, index) => (
+            <ExperienceItem key={exp.id} experience={exp} index={index} />
+          ))}
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <SkillsSection />
+
+      {/* Open Source Contributions */}
+      <OpenSourceContributions />
+
+      {/* GitHub Heatmap */}
+      <GitHubHeatmap username="krgyaan" />
+
+      {/* Call to Action */}
+      <CallToAction socials={profile.socialLinks} />
+    </div>
+  );
 };
 
 export default Index;
