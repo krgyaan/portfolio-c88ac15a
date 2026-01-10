@@ -4,7 +4,7 @@ export interface KanjiItem {
   reading: string;
   meaning: string;
   partOfSpeech: string;
-};
+}
 
 export interface BlogPost {
   id: string;
@@ -21,6 +21,8 @@ export interface Experience {
   company: string;
   role: string;
   period: string;
+  location?: string;
+  employmentType?: 'Full Time' | 'Part Time' | 'Contract' | 'Freelance';
   description?: string;
   logoUrl?: string;
   highlights?: string[];
@@ -31,6 +33,7 @@ export interface SocialLink {
   platform: string;
   url: string;
   icon: string;
+  isPrimary?: boolean;
 }
 
 export interface Profile {
@@ -39,6 +42,8 @@ export interface Profile {
   subtitle: string;
   avatarUrl: string;
   isVerified: boolean;
+  isAvailableForHire: boolean;
+  status: 'online' | 'offline' | 'busy';
   about: string;
   email: string;
   calendarUrl: string;
@@ -103,4 +108,19 @@ export interface GitHubWeek {
 export interface GitHubHeatmapType {
   total: number;
   weeks: GitHubWeek[];
+}
+
+export interface SiteConfig {
+  hireMe: {
+    enabled: boolean;
+    text: string;
+  };
+  ctaButtons: {
+    bookCall: { enabled: boolean; text: string };
+    sendEmail: { enabled: boolean; text: string };
+  };
+  footer: {
+    quote?: string;
+    author?: string;
+  };
 }

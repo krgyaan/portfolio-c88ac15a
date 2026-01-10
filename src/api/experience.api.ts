@@ -6,6 +6,8 @@ const mockExperiences: Experience[] = [
     company: "Volks Energie Pvt. Ltd.",
     role: "Software Developer",
     period: "Jul 2025 — Present",
+    location: "Remote",
+    employmentType: "Full Time",
     logoUrl: "",
     highlights: [
       "Core developer in a 2-person full-stack team, owning end-to-end delivery of multiple modules in a Tender Management System migrated from Laravel/MySQL to React, NestJS, and PostgreSQL.",
@@ -19,6 +21,8 @@ const mockExperiences: Experience[] = [
     company: "Ananta Business Services",
     role: "Software Developer",
     period: "Nov 2023 — Jun 2025",
+    location: "New Delhi, India",
+    employmentType: "Full Time",
     logoUrl: "",
     highlights: [
       "Led a 4-member development team, handling task allocation, PR reviews, sprint planning, and direct client communication.",
