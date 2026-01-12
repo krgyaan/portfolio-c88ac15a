@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -249,11 +249,10 @@
     @apply hover:bg-secondary hover:border-primary/30 transition-all duration-200;
   }
 
-  /* Hire me badge */
+  /* Hire me badge - handwritten style */
   .hire-badge {
-    @apply absolute -top-2 -right-2 px-2 py-0.5 text-xs font-bold rounded-full;
-    @apply bg-accent text-accent-foreground;
-    @apply rotate-12 shadow-sm;
+    font-family: 'Caveat', cursive;
+    @apply text-accent font-bold;
   }
 
   /* Dotted grid pattern */
@@ -270,6 +269,17 @@
   .github-hover-card {
     @apply p-4 border border-border bg-card shadow-lg;
   }
+
+  /* Section header with period */
+  .section-header {
+    @apply text-lg font-semibold text-foreground;
+  }
+
+  /* View All button */
+  .view-all-button {
+    @apply inline-flex items-center gap-2 text-sm font-medium text-muted-foreground;
+    @apply hover:text-foreground transition-colors;
+  }
 }
 
 @layer utilities {
@@ -283,6 +293,10 @@
 
   .font-mono {
     font-family: 'JetBrains Mono', monospace;
+  }
+
+  .font-handwritten {
+    font-family: 'Caveat', cursive;
   }
 
   .bg-divider {

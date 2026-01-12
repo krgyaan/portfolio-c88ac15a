@@ -11,6 +11,7 @@ const mockProfile: Profile = {
   about: "Full Stack Developer with 2.2+ years of hands-on experience building and migrating production systems using NestJS, React, and PostgreSQL. Strong in feature ownership, role-based access control, authentication, and API design from database schema to production deployment.",
   email: "gyanprakashk55@gmail.com",
   calendarUrl: "https://cal.com/gyanprakash",
+  viewCount: 255,
   socialLinks: [
     { id: "1", platform: "Gmail", url: "mailto:gyanprakashk55@gmail.com", icon: "Mail", isPrimary: true },
     { id: "2", platform: "GitHub", url: "https://github.com/krgyaan", icon: "Github", isPrimary: true },
