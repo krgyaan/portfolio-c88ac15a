@@ -15,6 +15,7 @@ const mockExperiences: Experience[] = [
       "Implemented JWT-based authentication and Google OAuth, introducing proper backend-enforced RBAC to replace UI-only restrictions in the legacy system.",
       "Set up CI/CD pipelines, Nginx, and production deployments on a Hostinger VPS.",
     ],
+    technologies: ["React", "NestJS", "PostgreSQL", "TypeScript", "Docker", "Nginx"],
   },
   {
     id: "2",
@@ -30,6 +31,7 @@ const mockExperiences: Experience[] = [
       "Designed and delivered large-scale Inventory and Office Management Systems using Laravel and MySQL, managing schemas across ~110 tables.",
       "Owned projects end-to-end, from requirement gathering and system design to deployment and post-release support.",
     ],
+    technologies: ["Laravel", "MySQL", "PHP", "JavaScript", "Bootstrap", "Git"],
   },
 ];
 

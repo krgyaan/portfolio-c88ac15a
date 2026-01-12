@@ -50,38 +50,38 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
               <p className="text-sm text-muted-foreground mt-0.5">
                 {experience.role}
               </p>
-              <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-                <span className="font-mono">{experience.period}</span>
-                {experience.location && (
-                  <>
-                    <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3" />
-                      {experience.location}
-                    </span>
-                  </>
-                )}
-              </div>
             </div>
           </div>
 
-          {/* Right - Toggle Button */}
-          {experience.highlights && experience.highlights.length > 0 && (
-            <button
-              onClick={() => setOpen((prev) => !prev)}
-              className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors p-2 rounded-lg hover:bg-secondary"
-            >
-              <span className="hidden sm:inline">
-                {open ? "Hide" : "Show"}
+          {/* Right - Date, Location, and Toggle */}
+          <div className="flex items-start gap-3 flex-shrink-0">
+            <div className="text-right">
+              <span className="text-xs font-mono text-muted-foreground">
+                {experience.period}
               </span>
-              <ChevronDown
-                className={cn(
-                  "h-4 w-4 transition-transform duration-200",
-                  open && "rotate-180"
-                )}
-              />
-            </button>
-          )}
+              {experience.location && (
+                <div className="flex items-center justify-end gap-1 mt-1 text-xs text-muted-foreground">
+                  <MapPin className="h-3 w-3" />
+                  {experience.location}
+                </div>
+              )}
+            </div>
+
+            {/* Toggle Button - only chevron */}
+            {experience.highlights && experience.highlights.length > 0 && (
+              <button
+                onClick={() => setOpen((prev) => !prev)}
+                className="flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors p-2 rounded-lg hover:bg-secondary"
+              >
+                <ChevronDown
+                  className={cn(
+                    "h-4 w-4 transition-transform duration-200",
+                    open && "rotate-180"
+                  )}
+                />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Collapsible Content */}
@@ -103,6 +103,20 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
                   </li>
                 ))}
               </ul>
+            )}
+
+            {/* Technology Tags */}
+            {experience.technologies && experience.technologies.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mt-4 pl-16">
+                {experience.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             )}
           </div>
         </div>

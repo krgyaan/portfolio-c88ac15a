@@ -14,6 +14,8 @@ export interface BlogPost {
   date: string;
   readTime?: string;
   tags?: string[];
+  claps?: number;
+  externalUrl?: string;
 }
 
 export interface Experience {
@@ -26,6 +28,7 @@ export interface Experience {
   description?: string;
   logoUrl?: string;
   highlights?: string[];
+  technologies?: string[];
 }
 
 export interface SocialLink {
@@ -48,6 +51,7 @@ export interface Profile {
   email: string;
   calendarUrl: string;
   socialLinks: SocialLink[];
+  viewCount?: number;
 }
 
 export interface Project {
@@ -66,6 +70,9 @@ export interface Project {
   solution?: string;
   challenges?: string;
   outcome?: string;
+  status?: 'live' | 'building' | 'coming-soon';
+  isFeatured?: boolean;
+  screenshots?: string[];
 }
 
 export interface Skill {
@@ -124,4 +131,15 @@ export interface SiteConfig {
     quote?: string;
     author?: string;
   };
+}
+
+export interface GitHubProfile {
+  login: string;
+  name: string;
+  avatar_url: string;
+  bio: string;
+  location: string;
+  public_repos: number;
+  followers: number;
+  following: number;
 }
