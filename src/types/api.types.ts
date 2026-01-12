@@ -71,6 +71,7 @@ export interface Project {
 export interface Skill {
   name: string;
   description: string;
+  icon?: string;
 }
 
 export interface SkillCategory {

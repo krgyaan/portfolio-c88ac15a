@@ -255,6 +255,21 @@
     @apply bg-accent text-accent-foreground;
     @apply rotate-12 shadow-sm;
   }
+
+  /* Dotted grid pattern */
+  .dotted-grid-pattern {
+    background-image: radial-gradient(
+      circle,
+      hsl(var(--border)) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+
+  /* GitHub hover card */
+  .github-hover-card {
+    @apply p-4 border border-border bg-card shadow-lg;
+  }
 }
 
 @layer utilities {
