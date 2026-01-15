@@ -143,13 +143,3 @@ export interface GitHubProfile {
   followers: number;
   following: number;
 }
-
-export interface Education {
-  id: string;
-  institution: string;
-  degree: string;
-  field?: string;
-  period: string;
-  highlights?: string[];
-  skills?: string[];
-}

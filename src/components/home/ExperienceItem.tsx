@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Experience } from "@/types/api.types";
-import { ChevronDown, Building2 } from "lucide-react";
+import { ChevronDown, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ExperienceItemProps {
@@ -19,12 +19,22 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
       <div className="py-4">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
-          {/* Left - Icon and Info */}
-          <div className="flex items-start gap-3">
-            {/* Company Icon */}
-            <div className="w-10 h-10 rounded-lg bg-secondary border border-border flex items-center justify-center flex-shrink-0">
-              <Building2 className="h-5 w-5 text-muted-foreground" />
-            </div>
+          {/* Left - Logo and Info */}
+          <div className="flex items-start gap-4">
+            {/* Company Logo */}
+            {experience.logoUrl ? (
+              <img
+                src={experience.logoUrl}
+                alt={experience.company}
+                className="w-12 h-12 rounded-lg object-contain bg-secondary border border-border"
+              />
+            ) : (
+              <div className="w-12 h-12 rounded-lg bg-secondary border border-border flex items-center justify-center flex-shrink-0">
+                <span className="text-sm font-semibold text-muted-foreground">
+                  {experience.company.charAt(0)}
+                </span>
+              </div>
+            )}
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
@@ -43,13 +53,21 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
             </div>
           </div>
 
-          {/* Right - Duration and Toggle */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <span className="text-xs font-mono text-muted-foreground">
-              {experience.period}
-            </span>
+          {/* Right - Date, Location, and Toggle */}
+          <div className="flex items-start gap-3 flex-shrink-0">
+            <div className="text-right">
+              <span className="text-xs font-mono text-muted-foreground">
+                {experience.period}
+              </span>
+              {experience.location && (
+                <div className="flex items-center justify-end gap-1 mt-1 text-xs text-muted-foreground">
+                  <MapPin className="h-3 w-3" />
+                  {experience.location}
+                </div>
+              )}
+            </div>
 
-            {/* Toggle Button */}
+            {/* Toggle Button - only chevron */}
             {experience.highlights && experience.highlights.length > 0 && (
               <button
                 onClick={() => setOpen((prev) => !prev)}
@@ -75,11 +93,11 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
         >
           <div className="overflow-hidden">
             {experience.highlights && experience.highlights.length > 0 && (
-              <ul className="space-y-2 pl-13 pr-4">
+              <ul className="space-y-2 pl-16 pr-4">
                 {experience.highlights.map((highlight, idx) => (
                   <li
                     key={idx}
-                    className="text-sm text-muted-foreground relative before:content-['•'] before:absolute before:-left-4 before:text-muted-foreground"
+                    className="text-sm text-muted-foreground relative before:content-['→'] before:absolute before:-left-5 before:text-muted-foreground/50"
                   >
                     {highlight}
                   </li>
@@ -89,7 +107,7 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
 
             {/* Technology Tags */}
             {experience.technologies && experience.technologies.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-4 pl-13">
+              <div className="flex flex-wrap gap-1.5 mt-4 pl-16">
                 {experience.technologies.map((tech) => (
                   <span
                     key={tech}

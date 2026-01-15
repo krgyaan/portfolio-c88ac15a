@@ -4,6 +4,7 @@ import { Navbar } from "./Navbar";
 import { SubPageHeader } from "./SubPageHeader";
 import { Footer } from "./Footer";
 import { BorderedContainer } from "@/components/ui/BorderedContainer";
+import { DottedPattern } from "@/components/ui/DottedPattern";
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,6 +19,7 @@ const SUB_PAGE_TITLES: Record<string, string> = {
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
   
+  // Check if it's a sub-page (not home, not 404)
   const isSubPage = Object.keys(SUB_PAGE_TITLES).some(
     (path) => location.pathname === path || location.pathname.startsWith(path + "/")
   );
@@ -29,6 +31,9 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen flex-col relative">
+      {/* Dotted pattern at the top */}
+      <DottedPattern />
+      
       <div className="flex-1 flex flex-col pt-8">
         <BorderedContainer className="flex-1 flex flex-col">
           {isSubPage && subPageTitle ? (
