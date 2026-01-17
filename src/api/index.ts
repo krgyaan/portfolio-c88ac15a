@@ -4,3 +4,4 @@ export * from './projects.api';
 export * from './blog.api';
 export * from './config.api';
 export * from './skills.api';
+export * from './education.api';
