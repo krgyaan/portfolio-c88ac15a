@@ -1,6 +1,7 @@
 import { Project } from "@/types/api.types";
 import { Github, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface ProjectCardProps {
   project: Project;
@@ -48,9 +49,24 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       </div>
 
       {/* Description */}
-      <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
         {project.description}
       </p>
+
+      {/* Tech Stack Tags */}
+      {project.tags && project.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {project.tags.slice(0, 5).map((tag) => (
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="text-xs px-2 py-0.5 font-normal"
+            >
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
 
       {/* Links */}
       {!isComingSoon && (
