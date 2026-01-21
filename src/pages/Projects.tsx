@@ -4,7 +4,7 @@ import { ExternalLink, Github, Star, GitFork } from "lucide-react";
 import { fetchTopGitHubRepos, GitHubRepoAPI } from "@/api/github.api";
 import { Button } from "@/components/ui/button";
 import { ProjectModal } from "@/components/projects/ProjectModal";
-import { ProjectFilters, SortOption } from "@/components/projects/ProjectFilters";
+import { ProjectFilters } from "@/components/projects/ProjectFilters";
 import { getLanguageColor } from "@/lib/languageColors";
 
 const GITHUB_USERNAME = "krgyaan";
@@ -15,10 +15,7 @@ const Projects = () => {
     const [error, setError] = useState<string | null>(null);
     const [selectedRepo, setSelectedRepo] = useState<GitHubRepoAPI | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
     const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
-    const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
-    const [sortBy, setSortBy] = useState<SortOption>("stars");
     const [focusedIndex, setFocusedIndex] = useState(-1);
     const gridRef = useRef<HTMLDivElement>(null);
     const cardRefs = useRef<(HTMLElement | null)[]>([]);
@@ -38,43 +35,21 @@ const Projects = () => {
         fetchRepos();
     }, []);
 
-    // Extract unique languages and topics
+    // Extract unique languages
     const languages = useMemo(() => {
         const langs = repos.map((r) => r.language).filter(Boolean) as string[];
         return [...new Set(langs)];
     }, [repos]);
 
-    const allTopics = useMemo(() => {
-        const topics = repos.flatMap((r) => r.topics || []);
-        return [...new Set(topics)];
-    }, [repos]);
-
-    // Filtered and sorted repos
+    // Filtered repos (sorted by stars by default)
     const filteredRepos = useMemo(() => {
         const filtered = repos.filter((repo) => {
-            const matchesSearch =
-                !searchQuery ||
-                repo.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                repo.description?.toLowerCase().includes(searchQuery.toLowerCase());
-            const matchesLanguage = !selectedLanguage || repo.language === selectedLanguage;
-            const matchesTopic = !selectedTopic || repo.topics?.includes(selectedTopic);
-            return matchesSearch && matchesLanguage && matchesTopic;
+            return !selectedLanguage || repo.language === selectedLanguage;
         });
 
-        // Sort repos
-        return filtered.sort((a, b) => {
-            switch (sortBy) {
-                case "stars":
-                    return b.stargazers_count - a.stargazers_count;
-                case "forks":
-                    return b.forks_count - a.forks_count;
-                case "updated":
-                    return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
-                default:
-                    return 0;
-            }
-        });
-    }, [repos, searchQuery, selectedLanguage, selectedTopic, sortBy]);
+        // Sort by stars (default)
+        return filtered.sort((a, b) => b.stargazers_count - a.stargazers_count);
+    }, [repos, selectedLanguage]);
 
     const handleCardClick = (repo: GitHubRepoAPI) => {
         setSelectedRepo(repo);
@@ -95,7 +70,7 @@ const Projects = () => {
 
     // Keyboard navigation for grid
     const handleKeyDown = useCallback((e: KeyboardEvent) => {
-        if (modalOpen) return; // Let modal handle its own keyboard events
+        if (modalOpen) return;
         
         const gridColumns = window.innerWidth >= 768 ? 2 : 1;
         const totalItems = filteredRepos.length;
@@ -141,10 +116,10 @@ const Projects = () => {
         return () => document.removeEventListener("keydown", handleKeyDown);
     }, [handleKeyDown]);
 
-    // Reset focus when filters change
+    // Reset focus when language filter changes
     useEffect(() => {
         setFocusedIndex(-1);
-    }, [searchQuery, selectedLanguage, selectedTopic, sortBy]);
+    }, [selectedLanguage]);
 
     if (loading) {
         return (
@@ -180,16 +155,9 @@ const Projects = () => {
             </div>
 
             <ProjectFilters
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
                 selectedLanguage={selectedLanguage}
                 onLanguageChange={setSelectedLanguage}
-                selectedTopic={selectedTopic}
-                onTopicChange={setSelectedTopic}
                 languages={languages}
-                topics={allTopics}
-                sortBy={sortBy}
-                onSortChange={setSortBy}
             />
 
             {filteredRepos.length === 0 ? (
