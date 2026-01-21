@@ -1,109 +1,75 @@
 
 
-## Plan: Simplify Project Filters and Restore Skills Section
+## Plan: Add Shadows and Remove Dotted Borders
 
 ### Overview
-This plan addresses two changes:
-1. Remove unnecessary sorting and filtering from the Projects page, keeping only Language filtering
-2. Create a new Skills section component with Grid/List view toggle
+Update the Experience and Education accordion items to have subtle shadows and remove the dotted divider lines between items.
 
 ---
 
-### Part 1: Simplify Project Filters
+### Changes
 
-#### 1.1 Update `src/components/projects/ProjectFilters.tsx`
+#### 1. Update `src/components/home/ExperienceItem.tsx`
 
-**Remove:**
-- Search input and related props (`searchQuery`, `onSearchChange`)
-- Sort options section (Stars, Forks, Updated buttons)
-- Topics filter section (`selectedTopic`, `onTopicChange`, `topics`)
-- Related imports (`Search`, `ArrowUpDown`, `Star`, `GitFork`, `Clock`)
+**Add shadow to the card container:**
+- Change the outer wrapper from a simple `div` to a styled card with:
+  - Rounded corners (`rounded-xl`)
+  - Border (`border border-border`)
+  - Shadow (`shadow-sm`)
+  - Background (`bg-card`)
+  - Padding adjustment (`p-4` instead of `py-4`)
+  - Margin bottom for spacing between items (`mb-4`)
 
-**Keep:**
-- Language filter with colored dots
-- Clear filters button (only for language)
+**Remove the dotted divider:**
+- Delete line 118: `<div className="divider-line" />`
 
-**Simplified props interface:**
-```typescript
-interface ProjectFiltersProps {
-  selectedLanguage: string | null;
-  onLanguageChange: (language: string | null) => void;
-  languages: string[];
-}
+**Updated structure:**
+```tsx
+<div
+  className="animate-fade-in-up rounded-xl border border-border bg-card shadow-sm p-4 mb-4"
+  style={{ animationDelay: `${index * 100}ms` }}
+>
+  {/* Header */}
+  <div className="flex items-start justify-between gap-4">
+    {/* ... existing content ... */}
+  </div>
+
+  {/* Collapsible Content */}
+  {/* ... existing content ... */}
+</div>
 ```
-
-#### 1.2 Update `src/pages/Projects.tsx`
-
-**Remove:**
-- `searchQuery` state and setter
-- `selectedTopic` state and setter  
-- `sortBy` state and setter
-- `SortOption` import
-- Search query filtering logic in `filteredRepos`
-- Topic filtering logic in `filteredRepos`
-- Sorting logic (switch statement with stars/forks/updated)
-- `allTopics` useMemo hook
-- Props passed to ProjectFilters: `searchQuery`, `onSearchChange`, `selectedTopic`, `onTopicChange`, `topics`, `sortBy`, `onSortChange`
-- Reset effect dependency on `searchQuery`, `selectedTopic`, `sortBy`
-
-**Keep:**
-- `selectedLanguage` state
-- `languages` useMemo
-- Language filtering in `filteredRepos`
-- Default sorting by stars (hardcoded, no toggle)
 
 ---
 
-### Part 2: Create Skills Section with View Toggle
+#### 2. Update `src/components/home/EducationItem.tsx`
 
-#### 2.1 Create `src/components/home/SkillsSection.tsx`
+**Add shadow to the card container:**
+- Same styling as ExperienceItem:
+  - Rounded corners (`rounded-xl`)
+  - Border (`border border-border`)
+  - Shadow (`shadow-sm`)
+  - Background (`bg-card`)
+  - Padding (`p-4`)
+  - Margin bottom (`mb-4`)
 
-New component with:
-- View mode toggle (Grid/List) using lucide icons (`LayoutGrid`, `List`)
-- Grid view: Cards showing skill name, icon, and description in a responsive grid
-- List view: Compact horizontal list with skill name and icon only
-- Use existing `SkillIcon` component for rendering icons
-- Fetch skills from `getSkills()` API
-- Group skills by category (Core Technologies, Backend, Databases, etc.)
-- Use animation classes for smooth transitions between views
+**Remove the dotted divider:**
+- Delete line 102: `<div className="divider-line" />`
 
-**Structure:**
-```typescript
-const SkillsSection = () => {
-  const [skills, setSkills] = useState<SkillCategory[]>([]);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  
-  // Fetch skills on mount
-  // Render toggle buttons
-  // Render skills based on viewMode
-}
+**Updated structure:**
+```tsx
+<div
+  className="animate-fade-in-up rounded-xl border border-border bg-card shadow-sm p-4 mb-4"
+  style={{ animationDelay: `${index * 100}ms` }}
+>
+  {/* Header */}
+  <div className="flex items-start justify-between gap-4">
+    {/* ... existing content ... */}
+  </div>
+
+  {/* Collapsible Content */}
+  {/* ... existing content ... */}
+</div>
 ```
-
-**Grid View:**
-- 2-3 column responsive grid
-- Each card shows: icon, skill name, description
-- Hover effects on cards
-- Category headers above each group
-
-**List View:**
-- Horizontal flex-wrap layout
-- Compact badges with icon + name only
-- Category headers as sections
-
-#### 2.2 Update `src/pages/Index.tsx`
-
-**Add:**
-- Import `SkillsSection` component
-- Import `getSkills` from API (if not already)
-- Add Skills section after Projects section with:
-  - Divider before section
-  - Section header with square bullet icon: "Skills"
-  - SkillsSection component
-
-#### 2.3 Update `src/api/index.ts`
-
-**Ensure export:**
-- `getSkills` function is exported (verify it's already there)
 
 ---
 
@@ -111,47 +77,39 @@ const SkillsSection = () => {
 
 | File | Action | Changes |
 |------|--------|---------|
-| `src/components/projects/ProjectFilters.tsx` | Update | Remove search, sort, topics; keep only language filter |
-| `src/pages/Projects.tsx` | Update | Remove unused state and filtering logic |
-| `src/components/home/SkillsSection.tsx` | Create | New skills section with grid/list toggle |
-| `src/pages/Index.tsx` | Update | Add Skills section after Projects |
-| `src/api/index.ts` | Update | Ensure getSkills is exported |
+| `src/components/home/ExperienceItem.tsx` | Update | Add shadow + border styling, remove `divider-line` |
+| `src/components/home/EducationItem.tsx` | Update | Add shadow + border styling, remove `divider-line` |
 
 ---
 
-### Implementation Order
+### Visual Result
 
-1. Update `src/components/projects/ProjectFilters.tsx` - simplify to language-only
-2. Update `src/pages/Projects.tsx` - remove unused state and logic
-3. Ensure `src/api/index.ts` exports `getSkills`
-4. Create `src/components/home/SkillsSection.tsx` - new component with view toggle
-5. Update `src/pages/Index.tsx` - add Skills section
-
----
-
-### Visual Preview
-
-**Projects Page After:**
-- Only shows language filter buttons (TypeScript, JavaScript, etc.)
-- No search bar, no sort options, no topic filters
-- Projects still sorted by stars (default)
-
-**Skills Section with Grid View:**
+**Before:**
 ```text
-■ Skills                    [Grid] [List]
-─────────────────────────────────────────
-Core Technologies
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-│ TS  TypeScript │ JS  JavaScript │ ⚛  React      │
-│ Production backend... │ Full-stack dev... │ Data-driven UIs...│
-└─────────────┘ └─────────────┘ └─────────────┘
+┌──────────────────────────────────────┐
+│ Company Name              Jan 2024   │
+│ Role Title                           │
+└──────────────────────────────────────┘
+- - - - - - - - - - - - - - - - - - - -  (dotted line)
+┌──────────────────────────────────────┐
+│ Company Name 2            Dec 2023   │
+│ Role Title 2                         │
+└──────────────────────────────────────┘
+- - - - - - - - - - - - - - - - - - - -  (dotted line)
 ```
 
-**Skills Section with List View:**
+**After:**
 ```text
-■ Skills                    [Grid] [List]
-─────────────────────────────────────────
-Core Technologies: [TS TypeScript] [JS JavaScript] [⚛ React] [NestJS]
-Backend: [API Design] [Authentication] [Node.js]
+╔══════════════════════════════════════╗
+║ Company Name              Jan 2024   ║  ░░ shadow
+║ Role Title                           ║  ░░
+╚══════════════════════════════════════╝
+
+╔══════════════════════════════════════╗
+║ Company Name 2            Dec 2023   ║  ░░ shadow
+║ Role Title 2                         ║  ░░
+╚══════════════════════════════════════╝
 ```
+
+Each item becomes a standalone card with subtle shadow, separated by margin spacing instead of dotted lines.
 
