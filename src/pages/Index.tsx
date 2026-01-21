@@ -7,6 +7,7 @@ import { ExperienceItem } from "@/components/home/ExperienceItem";
 import { EducationItem } from "@/components/home/EducationItem";
 import { GitHubHeatmap } from "@/components/home/GitHubHeatmap";
 import { ProjectCard } from "@/components/home/ProjectCard";
+import { SkillsSection } from "@/components/home/SkillsSection";
 import { ArrowRight, Square } from "lucide-react";
 
 const Index = () => {
@@ -136,6 +137,12 @@ const Index = () => {
           </section>
         </>
       )}
+
+      {/* Divider */}
+      <div className="divider-line" />
+
+      {/* Skills Section */}
+      <SkillsSection />
     </div>
   );
 };
