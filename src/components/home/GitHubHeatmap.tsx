@@ -23,17 +23,20 @@ export function GitHubHeatmap({ username }: { username: string }) {
 
   if (!data) return null;
 
-  // Calculate month labels positions based on weeks
+  // Calculate month labels with percentage-based positions
   const getMonthLabels = () => {
     const labels: { month: string; position: number }[] = [];
     let currentMonth = -1;
+    const totalWeeks = data.weeks.length;
     
     data.weeks.forEach((week, index) => {
       if (week.days.length > 0) {
         const date = new Date(week.days[0].date);
         const month = date.getMonth();
         if (month !== currentMonth) {
-          labels.push({ month: MONTHS[month], position: index });
+          // Use percentage for positioning
+          const percentage = (index / totalWeeks) * 100;
+          labels.push({ month: MONTHS[month], position: percentage });
           currentMonth = month;
         }
       }
@@ -56,13 +59,13 @@ export function GitHubHeatmap({ username }: { username: string }) {
         </div>
         
         {/* Month labels - responsive */}
-        <div className="relative h-4 sm:h-5 overflow-hidden">
-          <div className="flex text-[10px] sm:text-xs text-muted-foreground">
+        <div className="relative h-4 sm:h-5">
+          <div className="flex text-[10px] sm:text-xs text-muted-foreground font-mono">
             {monthLabels.map((label, idx) => (
               <span
                 key={idx}
-                className="absolute"
-                style={{ left: `${label.position * 11}px` }}
+                className="absolute whitespace-nowrap"
+                style={{ left: `${label.position}%` }}
               >
                 {label.month}
               </span>
@@ -70,8 +73,8 @@ export function GitHubHeatmap({ username }: { username: string }) {
           </div>
         </div>
 
-        {/* Heatmap grid - responsive */}
-        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent pb-2 -webkit-overflow-scrolling-touch">
+        {/* Heatmap grid - responsive with minimal scrollbar */}
+        <div className="overflow-x-auto pb-1 heatmap-scroll">
           <div className="inline-flex gap-[2px] sm:gap-[3px] flex-nowrap" style={{ minWidth: 'max-content' }}>
             {data.weeks.map((week, wIdx) => (
               <div key={wIdx} className="flex flex-col gap-[2px] sm:gap-[3px] flex-shrink-0">
