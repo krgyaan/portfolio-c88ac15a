@@ -8,7 +8,7 @@ const mockProfile: Profile = {
   isVerified: true,
   isAvailableForHire: true,
   status: 'online',
-  about: "Full Stack Developer with 2.2+ years of hands-on experience building and migrating production systems using NestJS, React, and PostgreSQL. Strong in feature ownership, role-based access control, authentication, and API design from database schema to production deployment.",
+  about: "Full-stack developer with 2+ years of production experience building and migrating business-critical systems using NestJS, React, PostgreSQL, and Laravel. Strong backend focus with hands-on experience in system migrations, authentication, RBAC, database design, and production deployments. Proven ability to own features end-to-end, work in small teams, and deliver reliable systems used daily by operations and finance teams.",
   email: "gyanprakashk55@gmail.com",
   calendarUrl: "https://cal.com/gyanprakash",
   viewCount: 255,
