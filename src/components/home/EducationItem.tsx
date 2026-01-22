@@ -13,10 +13,9 @@ export function EducationItem({ education, index }: EducationItemProps) {
 
   return (
     <div
-      className="animate-fade-in-up"
+      className="animate-fade-in-up rounded-xl border border-border bg-card shadow-sm p-4 mb-4"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="py-4">
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           {/* Left - Icon and Info */}
@@ -96,10 +95,6 @@ export function EducationItem({ education, index }: EducationItemProps) {
             )}
           </div>
         </div>
-      </div>
-
-      {/* Divider */}
-      <div className="divider-line" />
     </div>
   );
 }
