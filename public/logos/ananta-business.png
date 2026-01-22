@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+
+    <!-- Schema.org markup for Local Business -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Ananta Business Services",
+      "image": "https://www.absite.in/logo.png",
+      "description": "AI-powered IT solutions for business growth. Specializing in AI development, web design, mobile apps, and cloud integration.",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "125 Shahpur Jat",
+        "addressLocality": "New Delhi",
+        "postalCode": "110049",
+        "addressCountry": "IN"
+      },
+      "telephone": "+91-9289371171",
+      "email": "info@absite.in",
+      "url": "https://www.absite.in",
+      "founder": {
+        "@type": "Person",
+        "name": "Pramod Kumar Yadav"
+      },
+      "openingHours": "Mo-Sa 09:00-18:00",
+      "priceRange": "$$"
+    }
+    </script>
+
+    <!-- Detect dark mode preference and set the class before next-themes loads. This avoids a flash of unstyled content (FOUC) when the page loads. -->
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem("theme");
+          if (theme === "system" || !theme) {
+            var prefersDark = window.matchMedia(
+              "(prefers-color-scheme: dark)",
+            ).matches;
+            theme = prefersDark ? "dark" : "light";
+          }
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-nyik8ll2.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-Bzgz95E1.js">
+    <link rel="modulepreload" crossorigin href="/assets/router-DZzT5z2x.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CQMyi02t.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

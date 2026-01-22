@@ -25,15 +25,18 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
               <img
                 src={experience.logoUrl}
                 alt={experience.company}
-                className="w-12 h-12 rounded-lg object-contain bg-secondary border border-border"
+                className="w-12 h-12 rounded-lg object-contain bg-card border border-border p-1.5"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
               />
-            ) : (
-              <div className="w-12 h-12 rounded-lg bg-secondary border border-border flex items-center justify-center flex-shrink-0">
-                <span className="text-sm font-semibold text-muted-foreground">
-                  {experience.company.charAt(0)}
-                </span>
-              </div>
-            )}
+            ) : null}
+            <div className={`w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-muted border border-border flex items-center justify-center flex-shrink-0 ${experience.logoUrl ? 'hidden' : ''}`}>
+              <span className="text-base font-bold text-foreground">
+                {experience.company.split(' ').map(w => w[0]).slice(0, 2).join('')}
+              </span>
+            </div>
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">

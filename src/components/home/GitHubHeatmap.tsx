@@ -23,7 +23,7 @@ export function GitHubHeatmap({ username }: { username: string }) {
 
   if (!data) return null;
 
-  // Calculate month labels with percentage-based positions
+  // Calculate month labels with percentage-based positions, filtering overlapping labels
   const getMonthLabels = () => {
     const labels: { month: string; position: number }[] = [];
     let currentMonth = -1;
@@ -34,9 +34,11 @@ export function GitHubHeatmap({ username }: { username: string }) {
         const date = new Date(week.days[0].date);
         const month = date.getMonth();
         if (month !== currentMonth) {
-          // Use percentage for positioning
           const percentage = (index / totalWeeks) * 100;
-          labels.push({ month: MONTHS[month], position: percentage });
+          // Only add label if it's far enough from the previous one (min ~7% apart)
+          if (labels.length === 0 || percentage - labels[labels.length - 1].position > 6) {
+            labels.push({ month: MONTHS[month], position: percentage });
+          }
           currentMonth = month;
         }
       }

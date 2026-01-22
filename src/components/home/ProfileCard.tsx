@@ -1,5 +1,6 @@
 import { Profile, SiteConfig } from "@/types/api.types";
 import { SocialBadges } from "./SocialBadges";
+import { MapPin, Mail, Linkedin, Github, Download } from "lucide-react";
 
 interface ProfileCardProps {
   profile: Profile;
@@ -45,6 +46,61 @@ export function ProfileCard({ profile, config }: ProfileCardProps) {
       <p className="text-muted-foreground leading-relaxed text-sm">
         {profile.about}
       </p>
+
+      {/* Contact Details - Minimalist Row */}
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
+        <a 
+          href="https://maps.google.com/?q=New+Delhi,+India" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+        >
+          <MapPin className="h-3.5 w-3.5" />
+          <span>New Delhi, India</span>
+        </a>
+        <span className="text-border">•</span>
+        <a 
+          href="mailto:gyanprakashk55@gmail.com"
+          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+        >
+          <Mail className="h-3.5 w-3.5" />
+          <span>gyanprakashk55@gmail.com</span>
+        </a>
+        <span className="text-border hidden sm:inline">•</span>
+        <a 
+          href="https://linkedin.com/in/krgyaan"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+        >
+          <Linkedin className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">linkedin.com/in/krgyaan</span>
+          <span className="sm:hidden">LinkedIn</span>
+        </a>
+        <span className="text-border hidden sm:inline">•</span>
+        <a 
+          href="https://github.com/krgyaan"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
+        >
+          <Github className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">github.com/krgyaan</span>
+          <span className="sm:hidden">GitHub</span>
+        </a>
+      </div>
+
+      {/* Resume Download Button */}
+      <div className="mt-5">
+        <a
+          href="/resume.pdf"
+          download="Gyan_Prakash_Kumar_Resume.pdf"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-colors"
+        >
+          <Download className="h-4 w-4" />
+          Download Resume
+        </a>
+      </div>
 
       {/* Social Label and Badges */}
       <div className="mt-6">
