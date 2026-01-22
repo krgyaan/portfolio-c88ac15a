@@ -3,17 +3,17 @@ import { Education } from "@/types/api.types";
 const mockEducation: Education[] = [
   {
     id: "1",
-    institution: "University of Technology",
+    institution: "Vishveshwarya Group of Institution",
     degree: "Bachelor of Technology",
     field: "Computer Science & Engineering",
     period: "2020 — 2024",
+    location: "Greater Noida, UP, India",
     highlights: [
-      "Graduated with First Class honors",
-      "Specialized in Web Development and Software Engineering",
-      "Participated in multiple hackathons and coding competitions",
-      "Led the college tech club as Technical Lead"
+      "Focused on core computer science fundamentals and software engineering practices",
+      "Built multiple full-stack projects during academic years",
+      "Participated in coding competitions and technical events"
     ],
-    skills: ["Data Structures", "Algorithms", "Web Development", "Database Management"]
+    skills: ["Data Structures", "Algorithms", "Database Management", "Software Engineering"]
   }
 ];
 
