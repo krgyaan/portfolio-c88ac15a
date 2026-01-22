@@ -324,4 +324,27 @@
       transform: translateY(0);
     }
   }
+
+  /* Minimal heatmap scrollbar */
+  .heatmap-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  
+  .heatmap-scroll::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .heatmap-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .heatmap-scroll::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 2px;
+  }
+  
+  .heatmap-scroll::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
 }
