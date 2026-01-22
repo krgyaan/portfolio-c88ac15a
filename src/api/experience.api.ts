@@ -27,7 +27,7 @@ const mockExperiences: Experience[] = [
     period: "Nov 2023 — Jun 2025",
     location: "Hauz Khas, New Delhi",
     employmentType: "Full Time",
-    logoUrl: "",
+    logoUrl: "/logos/ananta-business.png",
     highlights: [
       "Served as technical owner for multiple client projects, leading task breakdown, sprint planning, PR reviews, and delivery execution.",
       "Acted as the primary technical contact for clients, translating ambiguous business requirements into production-ready systems.",
