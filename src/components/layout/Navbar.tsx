@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { path: "/", label: "Home" },
   { path: "/projects", label: "Projects" },
-  { path: "/blog", label: "Blog" },
+  { path: "/blog", label: "Notes" },
 ];
 
 export function Navbar() {
