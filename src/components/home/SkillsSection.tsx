@@ -9,7 +9,7 @@ type ViewMode = "grid" | "list";
 
 export const SkillsSection = () => {
   const [skills, setSkills] = useState<SkillCategory[]>([]);
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

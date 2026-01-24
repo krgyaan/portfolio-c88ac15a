@@ -1,6 +1,7 @@
 import { Profile, SiteConfig } from "@/types/api.types";
-import { SocialBadges } from "./SocialBadges";
-import { MapPin, Mail, Linkedin, Github, Download } from "lucide-react";
+import { MapPin, FileText, Mail, Github, Terminal } from "lucide-react";
+import { SiX } from "@icons-pack/react-simple-icons";
+import { GitHubHoverCard } from "./GitHubHoverCard";
 
 interface ProfileCardProps {
   profile: Profile;
@@ -47,67 +48,68 @@ export function ProfileCard({ profile, config }: ProfileCardProps) {
         {profile.about}
       </p>
 
-      {/* Contact Details - Minimalist Row */}
-      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
-        <a 
-          href="https://maps.google.com/?q=New+Delhi,+India" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
-        >
-          <MapPin className="h-3.5 w-3.5" />
-          <span>New Delhi, India</span>
-        </a>
-        <span className="text-border">•</span>
-        <a 
-          href="mailto:gyanprakashk55@gmail.com"
-          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
-        >
-          <Mail className="h-3.5 w-3.5" />
-          <span>gyanprakashk55@gmail.com</span>
-        </a>
-        <span className="text-border hidden sm:inline">•</span>
-        <a 
-          href="https://linkedin.com/in/krgyaan"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
-        >
-          <Linkedin className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">linkedin.com/in/krgyaan</span>
-          <span className="sm:hidden">LinkedIn</span>
-        </a>
-        <span className="text-border hidden sm:inline">•</span>
-        <a 
-          href="https://github.com/krgyaan"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1.5 hover:text-foreground transition-colors"
-        >
-          <Github className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">github.com/krgyaan</span>
-          <span className="sm:hidden">GitHub</span>
-        </a>
+      {/* Location */}
+      <div className="mt-4 flex items-center gap-1.5 text-xs text-muted-foreground">
+        <MapPin className="h-3.5 w-3.5" />
+        <span>New Delhi, India</span>
       </div>
 
-      {/* Resume Download Button */}
-      <div className="mt-5">
+      {/* Social Actions - Like the reference */}
+      <div className="mt-5 flex flex-wrap items-center gap-2">
+        {/* Bordered buttons */}
         <a
           href="/resume.pdf"
           download="Gyan_Prakash_Kumar_Resume.pdf"
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-secondary hover:bg-secondary/80 text-foreground transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
         >
-          <Download className="h-4 w-4" />
-          Download Resume
+          <FileText className="h-4 w-4" />
+          Resume
         </a>
-      </div>
+        <a
+          href="mailto:gyanprakashk55@gmail.com"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+        >
+          <Mail className="h-4 w-4" />
+          Contact
+        </a>
 
-      {/* Social Label and Badges */}
-      <div className="mt-6">
-        <p className="text-sm text-muted-foreground mb-3">
-          Here are my <span className="font-semibold text-foreground">socials</span>
-        </p>
-        <SocialBadges socialLinks={profile.socialLinks} />
+        {/* Icon-only buttons */}
+        <a
+          href="https://x.com/_gyaan_"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+          aria-label="X (Twitter)"
+        >
+          <SiX className="h-4 w-4" />
+        </a>
+        <GitHubHoverCard username="krgyaan">
+          <a
+            href="https://github.com/krgyaan"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+            aria-label="GitHub"
+          >
+            <Github className="h-4 w-4" />
+          </a>
+        </GitHubHoverCard>
+        <a
+          href="mailto:gyanprakashk55@gmail.com"
+          className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+          aria-label="Email"
+        >
+          <Mail className="h-4 w-4" />
+        </a>
+        <a
+          href="https://linkedin.com/in/krgyaan"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+          aria-label="Terminal"
+        >
+          <Terminal className="h-4 w-4" />
+        </a>
       </div>
     </div>
   );
