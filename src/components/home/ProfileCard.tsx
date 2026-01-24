@@ -1,7 +1,8 @@
 import { Profile, SiteConfig } from "@/types/api.types";
-import { MapPin, FileText, Mail, Github, Terminal } from "lucide-react";
+import { MapPin, FileText, Mail, Github, Linkedin } from "lucide-react";
 import { SiX } from "@icons-pack/react-simple-icons";
 import { GitHubHoverCard } from "./GitHubHoverCard";
+import { SocialHoverCard } from "./SocialHoverCard";
 
 interface ProfileCardProps {
   profile: Profile;
@@ -60,56 +61,62 @@ export function ProfileCard({ profile, config }: ProfileCardProps) {
         <a
           href="/resume.pdf"
           download="Gyan_Prakash_Kumar_Resume.pdf"
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-transparent hover:bg-secondary hover:scale-105 text-foreground transition-all duration-200"
         >
           <FileText className="h-4 w-4" />
           Resume
         </a>
         <a
           href="mailto:gyanprakashk55@gmail.com"
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg border border-border bg-transparent hover:bg-secondary hover:scale-105 text-foreground transition-all duration-200"
         >
           <Mail className="h-4 w-4" />
           Contact
         </a>
 
-        {/* Icon-only buttons */}
-        <a
-          href="https://x.com/_gyaan_"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
-          aria-label="X (Twitter)"
-        >
-          <SiX className="h-4 w-4" />
-        </a>
+        {/* Icon-only buttons with hover cards */}
+        <SocialHoverCard type="x" username="_gyaan_">
+          <a
+            href="https://x.com/_gyaan_"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary hover:scale-110 text-foreground transition-all duration-200"
+            aria-label="X (Twitter)"
+          >
+            <SiX className="h-4 w-4" />
+          </a>
+        </SocialHoverCard>
         <GitHubHoverCard username="krgyaan">
           <a
             href="https://github.com/krgyaan"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary hover:scale-110 text-foreground transition-all duration-200"
             aria-label="GitHub"
           >
             <Github className="h-4 w-4" />
           </a>
         </GitHubHoverCard>
-        <a
-          href="mailto:gyanprakashk55@gmail.com"
-          className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
-          aria-label="Email"
-        >
-          <Mail className="h-4 w-4" />
-        </a>
-        <a
-          href="https://linkedin.com/in/krgyaan"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary text-foreground transition-colors"
-          aria-label="Terminal"
-        >
-          <Terminal className="h-4 w-4" />
-        </a>
+        <SocialHoverCard type="email" email="gyanprakashk55@gmail.com">
+          <a
+            href="mailto:gyanprakashk55@gmail.com"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary hover:scale-110 text-foreground transition-all duration-200"
+            aria-label="Email"
+          >
+            <Mail className="h-4 w-4" />
+          </a>
+        </SocialHoverCard>
+        <SocialHoverCard type="linkedin" username="krgyaan">
+          <a
+            href="https://linkedin.com/in/krgyaan"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center h-10 w-10 rounded-lg border border-border bg-transparent hover:bg-secondary hover:scale-110 text-foreground transition-all duration-200"
+            aria-label="LinkedIn"
+          >
+            <Linkedin className="h-4 w-4" />
+          </a>
+        </SocialHoverCard>
       </div>
     </div>
   );
