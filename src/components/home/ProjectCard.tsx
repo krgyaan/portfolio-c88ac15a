@@ -1,5 +1,5 @@
 import { Project } from "@/types/api.types";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, Search, Compass, Gem } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
@@ -9,47 +9,38 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
-  const statusColors = {
-    live: "bg-accent",
-    building: "bg-amber-500",
-    "coming-soon": "bg-muted-foreground",
+  const statusConfig = {
+    live: { label: "Discovered", icon: Gem, color: "text-op-gold" },
+    building: { label: "Charting...", icon: Compass, color: "text-op-ocean" },
+    "coming-soon": { label: "Uncharted", icon: Compass, color: "text-muted-foreground" },
   };
 
-  const statusLabels = {
-    live: "Live",
-    building: "Building",
-    "coming-soon": "Coming Soon",
-  };
-
+  const status = statusConfig[project.status || "coming-soon"];
+  const StatusIcon = status.icon;
   const isComingSoon = project.status === "coming-soon";
 
   return (
     <article
-      className="group animate-fade-in-up rounded-xl border border-border p-4 bg-card hover:border-primary/30 transition-all duration-300"
+      className="group animate-fade-in-up ship-rock treasure-card"
       style={{ animationDelay: `${index * 100}ms` }}
     >
       {/* Header with title and status */}
       <div className="flex items-center gap-2 mb-2">
-        <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+        <h3 className="font-pirate text-lg text-foreground group-hover:text-primary transition-colors tracking-wide">
           {project.title}
         </h3>
         {project.status && (
           <div className="flex items-center gap-1.5">
-            <span
-              className={cn(
-                "w-2 h-2 rounded-full",
-                statusColors[project.status]
-              )}
-            />
-            <span className="text-xs text-muted-foreground">
-              {statusLabels[project.status]}
+            <StatusIcon className={cn("w-3 h-3", status.color)} />
+            <span className={cn("text-xs font-body", status.color)}>
+              {status.label}
             </span>
           </div>
         )}
       </div>
 
       {/* Description */}
-      <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+      <p className="text-sm text-muted-foreground line-clamp-2 mb-3 font-body">
         {project.description}
       </p>
 
@@ -60,7 +51,8 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             <Badge
               key={tag}
               variant="secondary"
-              className="text-xs px-2 py-0.5 font-normal"
+              className="text-xs px-2 py-0.5 font-normal border"
+              style={{ borderColor: 'hsl(var(--op-gold) / 0.2)' }}
             >
               {tag}
             </Badge>
@@ -76,10 +68,10 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-body"
             >
               <Github className="h-4 w-4" />
-              GitHub
+              Chart
             </a>
           )}
           {project.liveUrl && (
@@ -87,10 +79,10 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-body"
             >
-              <ExternalLink className="h-4 w-4" />
-              Live
+              <Search className="h-4 w-4" />
+              Explore
             </a>
           )}
         </div>

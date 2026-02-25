@@ -13,14 +13,17 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
 
   return (
     <div
-      className="animate-fade-in-up rounded-xl border border-border bg-card shadow-sm p-4 mb-4"
-      style={{ animationDelay: `${index * 100}ms` }}
+      className="animate-fade-in-up ship-rock rounded-xl border bg-card shadow-sm p-4 mb-4"
+      style={{ 
+        animationDelay: `${index * 100}ms`,
+        borderColor: 'hsl(var(--op-gold) / 0.2)',
+        borderLeftWidth: '3px',
+        borderLeftColor: 'hsl(var(--op-gold) / 0.6)',
+      }}
     >
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
-          {/* Left - Logo and Info */}
           <div className="flex items-start gap-4">
-            {/* Company Logo */}
             {experience.logoUrl ? (
               <img
                 src={experience.logoUrl}
@@ -33,14 +36,14 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
               />
             ) : null}
             <div className={`w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-muted border border-border flex items-center justify-center flex-shrink-0 ${experience.logoUrl ? 'hidden' : ''}`}>
-              <span className="text-base font-bold text-foreground">
+              <span className="text-base font-pirate text-foreground">
                 {experience.company.split(' ').map(w => w[0]).slice(0, 2).join('')}
               </span>
             </div>
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="font-semibold text-foreground">
+                <h3 className="font-semibold text-foreground font-pirate text-lg tracking-wide">
                   {experience.company}
                 </h3>
                 {experience.employmentType && (
@@ -49,19 +52,17 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
                   </span>
                 )}
               </div>
-              <p className="text-sm text-muted-foreground mt-0.5">
+              <p className="text-sm text-muted-foreground mt-0.5 font-body">
                 {experience.role}
               </p>
             </div>
           </div>
 
-          {/* Right - Period and Toggle */}
           <div className="flex items-start gap-3 flex-shrink-0">
             <span className="text-xs font-mono text-muted-foreground">
               {experience.period}
             </span>
 
-            {/* Toggle Button - only chevron */}
             {experience.highlights && experience.highlights.length > 0 && (
               <button
                 onClick={() => setOpen((prev) => !prev)}
@@ -91,7 +92,7 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
                 {experience.highlights.map((highlight, idx) => (
                   <li
                     key={idx}
-                    className="text-sm text-muted-foreground relative before:content-['•'] before:absolute before:-left-4 before:text-muted-foreground/50"
+                    className="text-sm text-muted-foreground relative before:content-['☠'] before:absolute before:-left-5 before:text-op-gold/60 before:text-xs font-body"
                   >
                     {highlight}
                   </li>
@@ -99,13 +100,13 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
               </ul>
             )}
 
-            {/* Technology Tags */}
             {experience.technologies && experience.technologies.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mt-4 pl-16">
                 {experience.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 py-0.5 text-xs font-medium rounded-full bg-primary/10 text-primary border border-primary/20"
+                    className="px-2 py-0.5 text-xs font-medium rounded-md bg-card text-primary border"
+                    style={{ borderColor: 'hsl(var(--op-gold) / 0.3)' }}
                   >
                     {tech}
                   </span>
