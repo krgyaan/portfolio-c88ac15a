@@ -3,15 +3,15 @@ import { SiteConfig } from '@/types/api.types';
 const mockConfig: SiteConfig = {
   hireMe: {
     enabled: true,
-    text: "HIRE ME!",
+    text: "WANTED!",
   },
   ctaButtons: {
     bookCall: { enabled: true, text: "Book an intro call" },
-    sendEmail: { enabled: true, text: "Send an email" },
+    sendEmail: { enabled: true, text: "Send a Den Den Mushi" },
   },
   footer: {
-    quote: "Building the future, one line of code at a time.",
-    author: "Gyan",
+    quote: "I'm gonna be King of the Pirates!",
+    author: "Monkey D. Luffy",
   },
 };
 

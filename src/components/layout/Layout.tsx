@@ -10,15 +10,14 @@ interface LayoutProps {
 }
 
 const SUB_PAGE_TITLES: Record<string, string> = {
-  "/experiences": "Experiences.",
-  "/projects": "Projects.",
-  "/blog": "Blogs.",
+  "/experiences": "Voyage Log",
+  "/projects": "Treasure Map",
+  "/blog": "Captain's Log",
 };
 
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
   
-  // Check if it's a sub-page (not home, not 404)
   const isSubPage = Object.keys(SUB_PAGE_TITLES).some(
     (path) => location.pathname === path || location.pathname.startsWith(path + "/")
   );

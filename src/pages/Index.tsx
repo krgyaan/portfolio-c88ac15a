@@ -8,7 +8,7 @@ import { EducationItem } from "@/components/home/EducationItem";
 import { GitHubHeatmap } from "@/components/home/GitHubHeatmap";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { SkillsSection } from "@/components/home/SkillsSection";
-import { ArrowRight, Square } from "lucide-react";
+import { ArrowRight, Anchor, Compass, Ship, BookOpen } from "lucide-react";
 
 const Index = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -60,21 +60,19 @@ const Index = () => {
       {/* Profile Section */}
       <ProfileCard profile={profile} config={config} />
 
-      {/* Divider */}
       <div className="divider-line" />
 
-      {/* GitHub Heatmap - moved after profile */}
+      {/* GitHub Heatmap */}
       <GitHubHeatmap username="krgyaan" />
 
-      {/* Divider */}
       <div className="divider-line" />
 
-      {/* Work Experience Section */}
+      {/* Voyage Log (Experience) */}
       <section className="py-2">
         <div className="flex items-center justify-between mb-4">
           <h2 className="section-header flex items-center gap-2">
-            <Square className="h-3 w-3 fill-current" />
-            Experience
+            <Compass className="h-4 w-4 text-op-gold" />
+            Voyage Log
           </h2>
         </div>
         <div>
@@ -85,22 +83,21 @@ const Index = () => {
         {experiences.length > 3 && (
           <div className="flex justify-center mt-4">
             <Link to="/experiences" className="view-all-button">
-              View All
+              Set Sail
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         )}
       </section>
 
-      {/* Divider */}
       <div className="divider-line" />
 
-      {/* Education Section */}
+      {/* Training Arc (Education) */}
       <section className="py-2">
         <div className="flex items-center justify-between mb-4">
           <h2 className="section-header flex items-center gap-2">
-            <Square className="h-3 w-3 fill-current" />
-            Education
+            <BookOpen className="h-4 w-4 text-op-gold" />
+            Training Arc
           </h2>
         </div>
         <div>
@@ -110,17 +107,16 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Divider */}
       <div className="divider-line" />
 
-      {/* Projects Section */}
+      {/* Treasure Map (Projects) */}
       {projects.length > 0 && (
         <>
           <section className="py-2">
             <div className="flex items-center justify-between mb-6">
               <h2 className="section-header flex items-center gap-2">
-                <Square className="h-3 w-3 fill-current" />
-                Projects
+                <Ship className="h-4 w-4 text-op-gold" />
+                Treasure Map
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -130,7 +126,7 @@ const Index = () => {
             </div>
             <div className="flex justify-center mt-6">
               <Link to="/projects" className="view-all-button">
-                View All
+                Set Sail
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -138,10 +134,9 @@ const Index = () => {
         </>
       )}
 
-      {/* Divider */}
       <div className="divider-line" />
 
-      {/* Skills Section */}
+      {/* Devil Fruits & Haki (Skills) */}
       <SkillsSection />
     </div>
   );

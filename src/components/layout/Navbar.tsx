@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { Skull, Anchor } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { path: "/", label: "Home" },
-  { path: "/projects", label: "Projects" },
-  { path: "/blog", label: "Notes" },
+  { path: "/", label: "Crew" },
+  { path: "/projects", label: "Treasure Map" },
+  { path: "/blog", label: "Captain's Log" },
 ];
 
 export function Navbar() {
@@ -14,9 +14,7 @@ export function Navbar() {
   const { theme, setTheme } = useTheme();
 
   const isActive = (path: string) => {
-    if (path === "/") {
-      return location.pathname === "/";
-    }
+    if (path === "/") return location.pathname === "/";
     return location.pathname.startsWith(path);
   };
 
@@ -33,7 +31,7 @@ export function Navbar() {
               <Link
                 to={link.path}
                 className={cn(
-                  "relative py-1 text-sm font-medium transition-colors duration-200",
+                  "relative py-1 text-sm font-pirate tracking-wide transition-colors duration-200",
                   isActive(link.path)
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -41,7 +39,12 @@ export function Navbar() {
               >
                 {link.label}
                 {isActive(link.path) && (
-                  <span className="absolute -bottom-[2px] left-0 h-[2px] w-full bg-foreground rounded-full" />
+                  <span 
+                    className="absolute -bottom-[2px] left-0 h-[2px] w-full rounded-full"
+                    style={{
+                      background: `linear-gradient(90deg, hsl(var(--op-red)), hsl(var(--op-gold)))`,
+                    }}
+                  />
                 )}
               </Link>
             </li>
@@ -50,15 +53,15 @@ export function Navbar() {
 
         <button
           onClick={toggleTheme}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors duration-200 hover:text-foreground hover:bg-secondary"
+          className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors duration-200 hover:text-op-gold hover:bg-secondary"
           aria-label="Toggle theme"
         >
-          <Sun className="h-4 w-4 rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" />
+          {/* Dark = Jolly Roger (Skull), Light = Marine (Anchor) */}
+          <Anchor className="h-4 w-4 rotate-0 scale-100 transition-all duration-300 dark:-rotate-90 dark:scale-0" />
+          <Skull className="absolute h-4 w-4 rotate-90 scale-0 transition-all duration-300 dark:rotate-0 dark:scale-100" />
         </button>
       </nav>
 
-      {/* Divider line */}
       <div className="divider-line mt-4" />
     </header>
   );

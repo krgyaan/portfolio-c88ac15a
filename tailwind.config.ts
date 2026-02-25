@@ -14,43 +14,22 @@ export default {
   	},
   	extend: {
   		fontFamily: {
-  			display: [
-  				'Space Grotesk',
-  				'sans-serif'
-  			],
+  			pirate: ['Pirata One', 'cursive'],
+  			body: ['IM Fell English', 'serif'],
   			mono: [
-  				'SF Mono',
+  				'JetBrains Mono',
   				'ui-monospace',
   				'SFMono-Regular',
   				'Menlo',
   				'Monaco',
   				'Consolas',
-  				'Liberation Mono',
-  				'Courier New',
   				'monospace'
   			],
   			sans: [
-  				'DM Sans',
-  				'ui-sans-serif',
-  				'system-ui',
-  				'-apple-system',
-  				'BlinkMacSystemFont',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica Neue',
-  				'Arial',
-  				'Noto Sans',
-  				'sans-serif'
-  			],
-  			serif: [
-  				'Crimson Pro',
-  				'ui-serif',
-  				'Georgia',
-  				'Cambria',
-  				'Times New Roman',
-  				'Times',
+  				'IM Fell English',
   				'serif'
-  			]
+  			],
+  			handwritten: ['Caveat', 'cursive'],
   		},
   		colors: {
   			border: 'hsl(var(--border))',
@@ -88,6 +67,11 @@ export default {
   			},
   			divider: 'hsl(var(--divider))',
   			glow: 'hsl(var(--glow-color))',
+  			'op-gold': 'hsl(var(--op-gold))',
+  			'op-red': 'hsl(var(--op-red))',
+  			'op-straw': 'hsl(var(--op-straw))',
+  			'op-ocean': 'hsl(var(--op-ocean))',
+  			'op-marine': 'hsl(var(--op-marine))',
   			status: {
   				online: 'hsl(var(--status-online))',
   				busy: 'hsl(var(--status-busy))',
@@ -101,45 +85,33 @@ export default {
   		},
   		keyframes: {
   			'accordion-down': {
-  				from: {
-  					height: '0'
-  				},
-  				to: {
-  					height: 'var(--radix-accordion-content-height)'
-  				}
+  				from: { height: '0' },
+  				to: { height: 'var(--radix-accordion-content-height)' }
   			},
   			'accordion-up': {
-  				from: {
-  					height: 'var(--radix-accordion-content-height)'
-  				},
-  				to: {
-  					height: '0'
-  				}
+  				from: { height: 'var(--radix-accordion-content-height)' },
+  				to: { height: '0' }
   			},
   			'fade-in': {
-  				from: {
-  					opacity: '0',
-  					transform: 'translateY(10px)'
-  				},
-  				to: {
-  					opacity: '1',
-  					transform: 'translateY(0)'
-  				}
+  				from: { opacity: '0', transform: 'translateY(10px)' },
+  				to: { opacity: '1', transform: 'translateY(0)' }
   			},
   			'glow-pulse': {
-  				'0%, 100%': {
-  					boxShadow: '0 0 20px 2px hsl(var(--glow-color) / 0.1)'
-  				},
-  				'50%': {
-  					boxShadow: '0 0 30px 4px hsl(var(--glow-color) / 0.2)'
-  				}
+  				'0%, 100%': { boxShadow: '0 0 20px 2px hsl(var(--op-gold) / 0.1)' },
+  				'50%': { boxShadow: '0 0 30px 4px hsl(var(--op-gold) / 0.25)' }
+  			},
+  			'ocean-sway': {
+  				'0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+  				'25%': { transform: 'translateY(-2px) rotate(0.3deg)' },
+  				'75%': { transform: 'translateY(1px) rotate(-0.2deg)' }
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			'fade-in': 'fade-in 0.5s ease-out forwards',
-  			'glow-pulse': 'glow-pulse 2s ease-in-out infinite'
+  			'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+  			'ocean-sway': 'ocean-sway 4s ease-in-out infinite'
   		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
