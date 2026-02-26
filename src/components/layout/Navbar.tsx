@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Skull, Anchor } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { JollyRoger } from "@/components/ui/JollyRoger";
 
 const navLinks = [
   { path: "/", label: "Crew" },
@@ -25,7 +26,11 @@ export function Navbar() {
   return (
     <header className="py-4 mb-4">
       <nav className="flex items-center justify-between">
-        <ul className="flex items-center gap-6">
+        <div className="flex items-center gap-6">
+          <Link to="/" className="text-foreground hover:text-op-gold transition-colors duration-200" aria-label="Home">
+            <JollyRoger className="w-7 h-7" />
+          </Link>
+          <ul className="flex items-center gap-6">
           {navLinks.map((link) => (
             <li key={link.path}>
               <Link
@@ -49,7 +54,8 @@ export function Navbar() {
               </Link>
             </li>
           ))}
-        </ul>
+          </ul>
+        </div>
 
         <button
           onClick={toggleTheme}
