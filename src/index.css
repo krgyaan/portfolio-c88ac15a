@@ -151,10 +151,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'IM Fell English', serif;
-    font-size: 16.5px;
-    line-height: 1.75;
-    letter-spacing: 0.01em;
-    word-spacing: 0.03em;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
@@ -203,7 +199,6 @@
 
   code, pre {
     font-family: 'JetBrains Mono', monospace;
-    letter-spacing: 0.03em;
   }
 }
 
@@ -369,47 +364,6 @@
     background-image: 
       radial-gradient(ellipse at 20% 80%, hsl(var(--op-straw) / 0.05) 0%, transparent 50%),
       radial-gradient(ellipse at 80% 20%, hsl(var(--op-gold) / 0.03) 0%, transparent 50%);
-  }
-
-
-  /* Ocean wave background */
-  .ocean-waves {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-
-  .ocean-wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    color: hsl(var(--op-ocean) / 0.04);
-  }
-
-  .ocean-wave-1 {
-    animation: ocean-drift-1 8s ease-in-out infinite;
-  }
-
-  .ocean-wave-2 {
-    color: hsl(var(--op-ocean) / 0.03);
-    animation: ocean-drift-2 12s ease-in-out infinite;
-  }
-
-  @keyframes ocean-drift-1 {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-25%); }
-  }
-
-  @keyframes ocean-drift-2 {
-    0%, 100% { transform: translateX(-25%); }
-    50% { transform: translateX(0); }
   }
 }
 
