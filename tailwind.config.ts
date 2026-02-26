@@ -14,7 +14,7 @@ export default {
   	},
   	extend: {
   		fontFamily: {
-  			pirate: ['Pirata One', 'cursive'],
+  			pirate: ['Zen Tokyo Zoo', 'cursive'],
   			body: ['IM Fell English', 'serif'],
   			mono: [
   				'JetBrains Mono',
