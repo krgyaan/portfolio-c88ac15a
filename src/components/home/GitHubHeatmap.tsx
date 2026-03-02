@@ -3,19 +3,20 @@ import { fetchGitHubHeatmap } from "@/api/github.api";
 import { cn } from "@/lib/utils";
 import { GitHubHeatmapType } from "@/types/api.types";
 import { ExternalLink } from "lucide-react";
+import { useAnimeTheme } from "@/contexts/AnimeThemeContext";
 
-// Ocean-themed heatmap: transparent → teal → ocean → navy → gold
 const LEVEL_STYLES = [
   "bg-secondary",
-  "bg-op-ocean/30",
-  "bg-op-ocean/60",
-  "bg-op-ocean",
-  "bg-op-gold",
+  "bg-[hsl(var(--theme-accent-4)_/_0.3)]",
+  "bg-[hsl(var(--theme-accent-4)_/_0.6)]",
+  "bg-[hsl(var(--theme-accent-4))]",
+  "bg-[hsl(var(--theme-accent-1))]",
 ];
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function GitHubHeatmap({ username }: { username: string }) {
+  const { theme } = useAnimeTheme();
   const [data, setData] = useState<GitHubHeatmapType | null>(null);
 
   useEffect(() => {
@@ -24,8 +25,10 @@ export function GitHubHeatmap({ username }: { username: string }) {
 
   if (!data) return null;
 
+  const labels = theme.labels.sections;
+
   const getMonthLabels = () => {
-    const labels: { month: string; position: number }[] = [];
+    const monthLabels: { month: string; position: number }[] = [];
     let currentMonth = -1;
     const totalWeeks = data.weeks.length;
     
@@ -35,15 +38,15 @@ export function GitHubHeatmap({ username }: { username: string }) {
         const month = date.getMonth();
         if (month !== currentMonth) {
           const percentage = (index / totalWeeks) * 100;
-          if (labels.length === 0 || percentage - labels[labels.length - 1].position > 6) {
-            labels.push({ month: MONTHS[month], position: percentage });
+          if (monthLabels.length === 0 || percentage - monthLabels[monthLabels.length - 1].position > 6) {
+            monthLabels.push({ month: MONTHS[month], position: percentage });
           }
           currentMonth = month;
         }
       }
     });
     
-    return labels;
+    return monthLabels;
   };
 
   const monthLabels = getMonthLabels();
@@ -53,13 +56,12 @@ export function GitHubHeatmap({ username }: { username: string }) {
     <section className="py-8">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-pirate text-foreground tracking-wide">Battles Fought</h2>
+          <h2 className="text-base font-pirate text-foreground tracking-wide">{labels.heatmap}</h2>
           <span className="text-xs text-muted-foreground font-mono">
-            {data.total} battles in {currentYear}
+            {data.total} {labels.heatmapUnit} in {currentYear}
           </span>
         </div>
         
-        {/* Month labels */}
         <div className="relative h-4 sm:h-5">
           <div className="flex text-[10px] sm:text-xs text-muted-foreground font-mono">
             {monthLabels.map((label, idx) => (
@@ -74,7 +76,6 @@ export function GitHubHeatmap({ username }: { username: string }) {
           </div>
         </div>
 
-        {/* Heatmap grid */}
         <div className="overflow-x-auto pb-1 heatmap-scroll">
           <div className="inline-flex gap-[2px] sm:gap-[3px] flex-nowrap" style={{ minWidth: 'max-content' }}>
             {data.weeks.map((week, wIdx) => (
@@ -82,7 +83,7 @@ export function GitHubHeatmap({ username }: { username: string }) {
                 {week.days.slice(0, 7).map((day) => (
                   <div
                     key={day.date}
-                    title={`${day.count} battles on ${day.date}`}
+                    title={`${day.count} ${labels.heatmapUnit} on ${day.date}`}
                     className={cn(
                       "h-2 w-2 sm:h-[10px] sm:w-[10px] rounded-[2px] sm:rounded-sm flex-shrink-0 transition-colors",
                       LEVEL_STYLES[day.level]
@@ -94,14 +95,13 @@ export function GitHubHeatmap({ username }: { username: string }) {
           </div>
         </div>
 
-        {/* Legend and link */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-1 sm:gap-1.5">
-            <span className="text-[10px] sm:text-xs font-body">Calm</span>
+            <span className="text-[10px] sm:text-xs font-body">{labels.heatmapLow}</span>
             {LEVEL_STYLES.map((cls, i) => (
               <div key={i} className={cn("h-2 w-2 sm:h-3 sm:w-3 rounded-[2px] sm:rounded-sm", cls)} />
             ))}
-            <span className="text-[10px] sm:text-xs font-body">Fierce</span>
+            <span className="text-[10px] sm:text-xs font-body">{labels.heatmapHigh}</span>
           </div>
 
           <a
@@ -110,7 +110,7 @@ export function GitHubHeatmap({ username }: { username: string }) {
             rel="noopener noreferrer"
             className="flex items-center gap-1 hover:text-primary transition-colors text-[10px] sm:text-xs font-body"
           >
-            Join my crew on GitHub
+            {labels.heatmapCta}
             <ExternalLink className="h-3 w-3" />
           </a>
         </div>

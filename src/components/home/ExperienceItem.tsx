@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Experience } from "@/types/api.types";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAnimeTheme } from "@/contexts/AnimeThemeContext";
 
 interface ExperienceItemProps {
   experience: Experience;
@@ -10,18 +11,19 @@ interface ExperienceItemProps {
 
 export function ExperienceItem({ experience, index }: ExperienceItemProps) {
   const [open, setOpen] = useState(false);
+  const { theme } = useAnimeTheme();
+  const bulletChar = theme.labels.bulletChar;
 
   return (
     <div
       className="animate-fade-in-up ship-rock rounded-xl border bg-card shadow-sm p-4 mb-4"
       style={{ 
         animationDelay: `${index * 100}ms`,
-        borderColor: 'hsl(var(--op-gold) / 0.2)',
+        borderColor: 'hsl(var(--theme-accent-1) / 0.2)',
         borderLeftWidth: '3px',
-        borderLeftColor: 'hsl(var(--op-gold) / 0.6)',
+        borderLeftColor: 'hsl(var(--theme-accent-1) / 0.6)',
       }}
     >
-        {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4">
             {experience.logoUrl ? (
@@ -79,7 +81,6 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
           </div>
         </div>
 
-        {/* Collapsible Content */}
         <div
           className={cn(
             "grid transition-all duration-300 ease-in-out",
@@ -92,8 +93,15 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
                 {experience.highlights.map((highlight, idx) => (
                   <li
                     key={idx}
-                    className="text-sm text-muted-foreground relative before:content-['☠'] before:absolute before:-left-5 before:text-op-gold/60 before:text-xs font-body"
+                    className="text-sm text-muted-foreground relative font-body"
+                    style={{ paddingLeft: '1.25rem' }}
                   >
+                    <span 
+                      className="absolute left-0 text-xs" 
+                      style={{ color: 'hsl(var(--theme-accent-1) / 0.6)' }}
+                    >
+                      {bulletChar}
+                    </span>
                     {highlight}
                   </li>
                 ))}
@@ -106,7 +114,7 @@ export function ExperienceItem({ experience, index }: ExperienceItemProps) {
                   <span
                     key={tech}
                     className="px-2 py-0.5 text-xs font-medium rounded-md bg-card text-primary border"
-                    style={{ borderColor: 'hsl(var(--op-gold) / 0.3)' }}
+                    style={{ borderColor: 'hsl(var(--theme-accent-1) / 0.3)' }}
                   >
                     {tech}
                   </span>

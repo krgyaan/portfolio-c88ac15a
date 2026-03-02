@@ -14,22 +14,11 @@ export default {
   	},
   	extend: {
   		fontFamily: {
-  			pirate: ['Pirata One', 'cursive'],
-  			body: ['IM Fell English', 'serif'],
-  			mono: [
-  				'JetBrains Mono',
-  				'ui-monospace',
-  				'SFMono-Regular',
-  				'Menlo',
-  				'Monaco',
-  				'Consolas',
-  				'monospace'
-  			],
-  			sans: [
-  				'IM Fell English',
-  				'serif'
-  			],
-  			handwritten: ['Caveat', 'cursive'],
+  			pirate: ['var(--font-header)'],
+  			body: ['var(--font-body)'],
+  			mono: ['var(--font-mono)'],
+  			sans: ['var(--font-body)'],
+  			handwritten: ['var(--font-handwritten)'],
   		},
   		colors: {
   			border: 'hsl(var(--border))',
