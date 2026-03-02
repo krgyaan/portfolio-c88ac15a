@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
-import { LayoutGrid, List, Anchor } from "lucide-react";
+import { LayoutGrid, List, Anchor, Swords, Flame, ScrollText, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SkillIcon } from "@/components/ui/SkillIcon";
 import { getSkills } from "@/api";
 import { SkillCategory } from "@/types/api.types";
+import { useAnimeTheme } from "@/contexts/AnimeThemeContext";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Anchor, Swords, Flame, ScrollText, Target,
+};
 
 type ViewMode = "grid" | "list";
 
-const CATEGORY_PIRATE_NAMES: Record<string, string> = {
-  "Languages": "Haki Types",
-  "Frameworks": "Devil Fruits",
-  "Tools": "Weapons",
-  "Databases": "Treasure Vaults",
-  "Other": "Grand Line Skills",
-};
-
 export const SkillsSection = () => {
+  const { theme } = useAnimeTheme();
   const [skills, setSkills] = useState<SkillCategory[]>([]);
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [loading, setLoading] = useState(true);
+
+  const SectionIcon = iconMap[theme.icons.skills] || Anchor;
+  const categoryNames = theme.labels.skillCategories;
+  const sectionTitle = theme.labels.sections.skills;
 
   useEffect(() => {
     async function fetchSkills() {
@@ -34,8 +36,8 @@ export const SkillsSection = () => {
       <section className="py-2">
         <div className="flex items-center justify-between mb-4">
           <h2 className="section-header flex items-center gap-2">
-            <Anchor className="h-4 w-4 text-op-gold" />
-            Devil Fruits & Haki
+            <SectionIcon className="h-4 w-4" style={{ color: 'hsl(var(--theme-accent-1))' }} />
+            {sectionTitle}
           </h2>
         </div>
         <div className="space-y-4">
@@ -51,8 +53,8 @@ export const SkillsSection = () => {
     <section className="py-2">
       <div className="flex items-center justify-between mb-4">
         <h2 className="section-header flex items-center gap-2">
-          <Anchor className="h-4 w-4 text-op-gold" />
-          Devil Fruits & Haki
+          <SectionIcon className="h-4 w-4" style={{ color: 'hsl(var(--theme-accent-1))' }} />
+          {sectionTitle}
         </h2>
         <div className="flex items-center gap-1">
           <Button
@@ -80,7 +82,7 @@ export const SkillsSection = () => {
         {skills.map((category) => (
           <div key={category.id} className="animate-fade-in">
             <h3 className="text-sm font-pirate text-muted-foreground mb-3 tracking-wide">
-              {CATEGORY_PIRATE_NAMES[category.title] || category.title}
+              {categoryNames[category.title] || category.title}
             </h3>
 
             {viewMode === "grid" ? (
@@ -89,7 +91,7 @@ export const SkillsSection = () => {
                   <div
                     key={skill.name}
                     className="group p-4 rounded-lg border bg-card/30 hover:bg-card/50 transition-all duration-200 ship-rock"
-                    style={{ borderColor: 'hsl(var(--op-gold) / 0.2)' }}
+                    style={{ borderColor: 'hsl(var(--theme-accent-1) / 0.2)' }}
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <div className="p-2 rounded-md bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
@@ -111,7 +113,7 @@ export const SkillsSection = () => {
                   <div
                     key={skill.name}
                     className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border bg-card/30 hover:bg-card/50 transition-all duration-200"
-                    style={{ borderColor: 'hsl(var(--op-gold) / 0.2)' }}
+                    style={{ borderColor: 'hsl(var(--theme-accent-1) / 0.2)' }}
                   >
                     <SkillIcon icon={skill.icon} size={14} className="text-primary" />
                     <span className="text-sm font-medium text-foreground font-body">

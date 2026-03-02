@@ -1,7 +1,12 @@
 import { Project } from "@/types/api.types";
-import { Github, Search, Compass, Gem } from "lucide-react";
+import { Github, Search, Compass, Gem, Flame, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { useAnimeTheme } from "@/contexts/AnimeThemeContext";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Gem, Compass, Flame, Target,
+};
 
 interface ProjectCardProps {
   project: Project;
@@ -9,10 +14,15 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+  const { theme } = useAnimeTheme();
+  
+  const LiveIcon = iconMap[theme.icons.statusLive] || Gem;
+  const BuildingIcon = iconMap[theme.icons.statusBuilding] || Compass;
+
   const statusConfig = {
-    live: { label: "Discovered", icon: Gem, color: "text-op-gold" },
-    building: { label: "Charting...", icon: Compass, color: "text-op-ocean" },
-    "coming-soon": { label: "Uncharted", icon: Compass, color: "text-muted-foreground" },
+    live: { label: theme.labels.status.live, icon: LiveIcon, color: "text-primary" },
+    building: { label: theme.labels.status.building, icon: BuildingIcon, color: "text-muted-foreground" },
+    "coming-soon": { label: theme.labels.status['coming-soon'], icon: BuildingIcon, color: "text-muted-foreground" },
   };
 
   const status = statusConfig[project.status || "coming-soon"];
@@ -24,7 +34,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       className="group animate-fade-in-up ship-rock treasure-card"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      {/* Header with title and status */}
       <div className="flex items-center gap-2 mb-2">
         <h3 className="font-pirate text-lg text-foreground group-hover:text-primary transition-colors tracking-wide">
           {project.title}
@@ -39,12 +48,10 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         )}
       </div>
 
-      {/* Description */}
       <p className="text-sm text-muted-foreground line-clamp-2 mb-3 font-body">
         {project.description}
       </p>
 
-      {/* Tech Stack Tags */}
       {project.tags && project.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-4">
           {project.tags.slice(0, 5).map((tag) => (
@@ -52,7 +59,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               key={tag}
               variant="secondary"
               className="text-xs px-2 py-0.5 font-normal border"
-              style={{ borderColor: 'hsl(var(--op-gold) / 0.2)' }}
+              style={{ borderColor: 'hsl(var(--theme-accent-1) / 0.2)' }}
             >
               {tag}
             </Badge>
@@ -60,7 +67,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
         </div>
       )}
 
-      {/* Links */}
       {!isComingSoon && (
         <div className="flex items-center gap-4">
           {project.githubUrl && (
@@ -71,7 +77,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-body"
             >
               <Github className="h-4 w-4" />
-              Chart
+              {theme.labels.projectLinks.github}
             </a>
           )}
           {project.liveUrl && (
@@ -82,7 +88,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors font-body"
             >
               <Search className="h-4 w-4" />
-              Explore
+              {theme.labels.projectLinks.live}
             </a>
           )}
         </div>

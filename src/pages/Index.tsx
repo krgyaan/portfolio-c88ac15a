@@ -1,41 +1,51 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getProfile, getExperiences, getSiteConfig, getFeaturedProjects, getEducation } from "@/api";
-import { Profile, Experience, SiteConfig, Project, Education } from "@/types/api.types";
+import { getProfile, getExperiences, getFeaturedProjects, getEducation } from "@/api";
+import { Profile, Experience, Project, Education } from "@/types/api.types";
 import { ProfileCard } from "@/components/home/ProfileCard";
 import { ExperienceItem } from "@/components/home/ExperienceItem";
 import { EducationItem } from "@/components/home/EducationItem";
 import { GitHubHeatmap } from "@/components/home/GitHubHeatmap";
 import { ProjectCard } from "@/components/home/ProjectCard";
 import { SkillsSection } from "@/components/home/SkillsSection";
-import { ArrowRight, Anchor, Compass, Ship, BookOpen } from "lucide-react";
+import { ArrowRight, Anchor, Compass, Ship, BookOpen, Flame, ScrollText, Target, Swords } from "lucide-react";
+import { useAnimeTheme } from "@/contexts/AnimeThemeContext";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Anchor, Compass, Ship, BookOpen, Flame, ScrollText, Target, Swords,
+};
 
 const Index = () => {
+  const { theme } = useAnimeTheme();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [experiences, setExperiences] = useState<Experience[]>([]);
   const [education, setEducation] = useState<Education[]>([]);
-  const [config, setConfig] = useState<SiteConfig | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const [profileData, experienceData, educationData, configData, projectsData] = await Promise.all([
+      const [profileData, experienceData, educationData, projectsData] = await Promise.all([
         getProfile(),
         getExperiences(),
         getEducation(),
-        getSiteConfig(),
         getFeaturedProjects(4),
       ]);
       setProfile(profileData);
       setExperiences(experienceData);
       setEducation(educationData);
-      setConfig(configData);
       setProjects(projectsData);
       setLoading(false);
     }
     fetchData();
   }, []);
+
+  const labels = theme.labels.sections;
+  const icons = theme.icons;
+
+  const ExperienceIcon = iconMap[icons.experience] || Compass;
+  const EducationIcon = iconMap[icons.education] || BookOpen;
+  const ProjectsIcon = iconMap[icons.projects] || Ship;
 
   if (loading || !profile) {
     return (
@@ -57,22 +67,20 @@ const Index = () => {
 
   return (
     <div className="space-y-8">
-      {/* Profile Section */}
-      <ProfileCard profile={profile} config={config} />
+      <ProfileCard profile={profile} />
 
       <div className="divider-line" />
 
-      {/* GitHub Heatmap */}
       <GitHubHeatmap username="krgyaan" />
 
       <div className="divider-line" />
 
-      {/* Voyage Log (Experience) */}
+      {/* Experience */}
       <section className="py-2">
         <div className="flex items-center justify-between mb-4">
           <h2 className="section-header flex items-center gap-2">
-            <Compass className="h-4 w-4 text-op-gold" />
-            Voyage Log
+            <ExperienceIcon className="h-4 w-4" style={{ color: 'hsl(var(--theme-accent-1))' }} />
+            {labels.experience}
           </h2>
         </div>
         <div>
@@ -83,7 +91,7 @@ const Index = () => {
         {experiences.length > 3 && (
           <div className="flex justify-center mt-4">
             <Link to="/experiences" className="view-all-button">
-              Set Sail
+              {theme.labels.viewAll}
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -92,12 +100,12 @@ const Index = () => {
 
       <div className="divider-line" />
 
-      {/* Training Arc (Education) */}
+      {/* Education */}
       <section className="py-2">
         <div className="flex items-center justify-between mb-4">
           <h2 className="section-header flex items-center gap-2">
-            <BookOpen className="h-4 w-4 text-op-gold" />
-            Training Arc
+            <EducationIcon className="h-4 w-4" style={{ color: 'hsl(var(--theme-accent-1))' }} />
+            {labels.education}
           </h2>
         </div>
         <div>
@@ -109,14 +117,14 @@ const Index = () => {
 
       <div className="divider-line" />
 
-      {/* Treasure Map (Projects) */}
+      {/* Projects */}
       {projects.length > 0 && (
         <>
           <section className="py-2">
             <div className="flex items-center justify-between mb-6">
               <h2 className="section-header flex items-center gap-2">
-                <Ship className="h-4 w-4 text-op-gold" />
-                Treasure Map
+                <ProjectsIcon className="h-4 w-4" style={{ color: 'hsl(var(--theme-accent-1))' }} />
+                {labels.projects}
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -126,7 +134,7 @@ const Index = () => {
             </div>
             <div className="flex justify-center mt-6">
               <Link to="/projects" className="view-all-button">
-                Set Sail
+                {theme.labels.viewAll}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -136,7 +144,6 @@ const Index = () => {
 
       <div className="divider-line" />
 
-      {/* Devil Fruits & Haki (Skills) */}
       <SkillsSection />
     </div>
   );

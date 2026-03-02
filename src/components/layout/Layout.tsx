@@ -4,26 +4,23 @@ import { Navbar } from "./Navbar";
 import { SubPageHeader } from "./SubPageHeader";
 import { Footer } from "./Footer";
 import { BorderedContainer } from "@/components/ui/BorderedContainer";
+import { useAnimeTheme } from "@/contexts/AnimeThemeContext";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const SUB_PAGE_TITLES: Record<string, string> = {
-  "/experiences": "Voyage Log",
-  "/projects": "Treasure Map",
-  "/blog": "Captain's Log",
-};
-
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
+  const { theme } = useAnimeTheme();
+  const subPageTitles = theme.labels.subPageTitles;
   
-  const isSubPage = Object.keys(SUB_PAGE_TITLES).some(
+  const isSubPage = Object.keys(subPageTitles).some(
     (path) => location.pathname === path || location.pathname.startsWith(path + "/")
   );
   
-  const subPageTitle = SUB_PAGE_TITLES[location.pathname] || 
-    Object.entries(SUB_PAGE_TITLES).find(([path]) => 
+  const subPageTitle = subPageTitles[location.pathname] || 
+    Object.entries(subPageTitles).find(([path]) => 
       location.pathname.startsWith(path + "/")
     )?.[1];
 
