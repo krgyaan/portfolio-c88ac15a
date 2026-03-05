@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ProjectModal } from "@/components/projects/ProjectModal";
 import { ProjectFilters } from "@/components/projects/ProjectFilters";
 import { getLanguageColor } from "@/lib/languageColors";
+import { safeOpen } from "@/lib/safeOpen";
 
 const GITHUB_USERNAME = "krgyaan";
 
@@ -238,7 +239,7 @@ const Projects = () => {
                                                 className="gap-1.5 text-xs h-8 px-3 hover:bg-primary/10 hover:text-primary"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    window.open(repo.homepage!, '_blank');
+                                                    safeOpen(repo.homepage!);
                                                 }}
                                             >
                                                 <ExternalLink className="h-3.5 w-3.5" />
@@ -251,7 +252,7 @@ const Projects = () => {
                                             className="gap-1.5 text-xs h-8 px-3 hover:bg-primary hover:text-primary-foreground hover:border-primary"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                window.open(repo.html_url, '_blank');
+                                                window.open(repo.html_url, '_blank', 'noopener,noreferrer');
                                             }}
                                         >
                                             <Github className="h-3.5 w-3.5" />
