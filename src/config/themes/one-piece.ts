@@ -66,11 +66,11 @@ export const onePieceTheme: AnimeTheme = {
     },
   },
   fonts: {
-    header: "'Pirata One', cursive",
-    body: "'IM Fell English', serif",
+    header: "'Playfair Display', serif",
+    body: "'Lora', serif",
     mono: "'JetBrains Mono', monospace",
-    handwritten: "'Caveat', cursive",
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Pirata+One&family=IM+Fell+English:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap",
+    handwritten: "'Cormorant Garamond', serif",
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap",
   },
   labels: {
     nav: [
