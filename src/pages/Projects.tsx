@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ProjectModal } from "@/components/projects/ProjectModal";
 import { ProjectFilters } from "@/components/projects/ProjectFilters";
 import { getLanguageColor } from "@/lib/languageColors";
+import { safeOpen } from "@/lib/safeOpen";
 
 const GITHUB_USERNAME = "krgyaan";
 

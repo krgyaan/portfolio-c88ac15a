@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { GitHubRepoAPI } from "@/api/github.api";
 import { ExternalLink, Github, Star, GitFork, Eye, Calendar, Scale, ChevronLeft, ChevronRight } from "lucide-react";
 import { getLanguageColor } from "@/lib/languageColors";
+import { safeOpen } from "@/lib/safeOpen";
 
 interface ProjectModalProps {
   repo: GitHubRepoAPI | null;
