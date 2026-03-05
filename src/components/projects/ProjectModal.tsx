@@ -163,7 +163,7 @@ export const ProjectModal = ({ repo, open, onOpenChange, onNavigate, hasPrev, ha
           <div className="flex gap-3 pt-2">
             <Button
               className="flex-1 gap-2"
-              onClick={() => window.open(repo.html_url, "_blank")}
+              onClick={() => window.open(repo.html_url, "_blank", "noopener,noreferrer")}
             >
               <Github className="h-4 w-4" />
               View on GitHub
@@ -172,7 +172,7 @@ export const ProjectModal = ({ repo, open, onOpenChange, onNavigate, hasPrev, ha
               <Button
                 variant="outline"
                 className="flex-1 gap-2"
-                onClick={() => window.open(repo.homepage!, "_blank")}
+                onClick={() => safeOpen(repo.homepage!)}
               >
                 <ExternalLink className="h-4 w-4" />
                 Live Demo
