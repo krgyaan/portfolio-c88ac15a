@@ -68,11 +68,11 @@ export const narutoTheme: AnimeTheme = {
     },
   },
   fonts: {
-    header: "'Zen Tokyo Zoo', cursive",
-    body: "'Noto Serif JP', serif",
+    header: "'Cinzel', serif",
+    body: "'Source Serif 4', serif",
     mono: "'JetBrains Mono', monospace",
-    handwritten: "'Caveat', cursive",
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Zen+Tokyo+Zoo&family=Noto+Serif+JP:wght@400;500;600;700&display=swap",
+    handwritten: "'Cormorant Garamond', serif",
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap",
   },
   labels: {
     nav: [
